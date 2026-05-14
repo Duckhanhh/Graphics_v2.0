@@ -22,9 +22,6 @@ obj/
 *.obj
 *.exe
 *.dll
-*.lib
-!freeglut.lib
-!glew32.lib
 *.exp
 
 # Build folders
