@@ -1,0 +1,40 @@
+# Visual Studio
+*.sdf
+*.db
+*.suo
+*.sln.old
+*.VC.db
+UpgradeLog.XML
+
+# IntelliSense
+ipch/
+
+# Build outputs
+Release/
+Debug/
+x64/
+x86/
+bin/
+obj/
+
+# Compiled files
+*.pdb
+*.obj
+*.exe
+*.dll
+*.lib
+*.exp
+
+# Build folders
+.vs/
+.vscode/
+
+# Temporary files
+*.tmp
+*.log
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
