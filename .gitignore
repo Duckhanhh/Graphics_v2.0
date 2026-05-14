@@ -23,6 +23,7 @@ obj/
 *.exe
 *.dll
 *.lib
+!freeglut.lib
 *.exp
 
 # Build folders
