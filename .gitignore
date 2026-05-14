@@ -21,8 +21,6 @@ obj/
 *.pdb
 *.obj
 *.exe
-*.dll
-*.lib
 *.exp
 
 # Build folders
