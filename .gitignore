@@ -22,6 +22,7 @@ obj/
 *.obj
 *.exe
 *.dll
+*.lib
 *.exp
 
 # Build folders
