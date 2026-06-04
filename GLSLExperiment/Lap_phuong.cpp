@@ -1,136 +1,115 @@
-// Lap_phuong.cpp
-// Hình lập phương đơn vị: tâm (0,0,0), cạnh = 1.0
-// Màu mỗi đỉnh ghi sẵn vào VBO — vshader đọc thẳng qua vColor
-// KHÔNG chứa main — được gọi từ main.cpp
+﻿//Chương trình vẽ 1 hình lập phương đơn vị theo mô hình lập trình OpenGL hiện đại
 
 #include "Lap_phuong.h"
+#include "Angel.h"  /* Angel.h là file tự phát triển (tác giả Prof. Angel), có chứa cả khai báo includes glew và freeglut*/
+
 
 typedef vec4 point4;
 typedef vec4 color4;
+using namespace std;
 
-// ---------------------------------------------------------------
-// Dữ liệu nội bộ — static để tránh xung đột tên với file khác
-// ---------------------------------------------------------------
-static const int NUM_VERTS = 36; // 6 mặt x 2 tam giác x 3 đỉnh
+// Số các đỉnh của các tam giác
+const int NumPoints = 36;
 
-static point4 cubePoints[NUM_VERTS];
-static color4 cubeColors[NUM_VERTS];
+static point4 points[NumPoints]; /* Danh sách các đỉnh của các tam giác cần vẽ*/
+static color4 colors[NumPoints]; /* Danh sách các màu tương ứng cho các đỉnh trên*/
+static vec3 normals[NumPoints]; /* Mảng vector pháp tuyến của cô giáo */
 
-// 8 đỉnh của cube đơn vị
-static point4 vertices[8];
 
-// Màu 8 đỉnh
-static color4 vertex_colors[8];
+static point4 vertices[8]; /* Danh sách 8 đỉnh của hình lập phương*/
+static color4 vertex_colors[8]; /*Danh sách các màu tương ứng cho 8 đỉnh hình lập phương*/
 
-static GLuint cubeVAO;
-static GLuint cubeVBO;
-static int    cubeIndex = 0;
+static GLuint vao_lap_phuong;
+static GLuint buffer_lap_phuong;
+static int Index = 0;
 
-// ---------------------------------------------------------------
-// initCube: Gán tọa độ và màu cho 8 đỉnh
-// ---------------------------------------------------------------
 static void initCube()
 {
-    // Tọa độ 8 đỉnh — tâm tại (0,0,0), cạnh = 1.0
-    vertices[0] = point4(-0.5f, -0.5f, 0.5f, 1.0f);
-    vertices[1] = point4(-0.5f, 0.5f, 0.5f, 1.0f);
-    vertices[2] = point4(0.5f, 0.5f, 0.5f, 1.0f);
-    vertices[3] = point4(0.5f, -0.5f, 0.5f, 1.0f);
-    vertices[4] = point4(-0.5f, -0.5f, -0.5f, 1.0f);
-    vertices[5] = point4(-0.5f, 0.5f, -0.5f, 1.0f);
-    vertices[6] = point4(0.5f, 0.5f, -0.5f, 1.0f);
-    vertices[7] = point4(0.5f, -0.5f, -0.5f, 1.0f);
+	// Gán giá trị tọa độ vị trí cho các đỉnh của hình lập phương
+	vertices[0] = point4(-0.5, -0.5, 0.5, 1.0);
+	vertices[1] = point4(-0.5, 0.5, 0.5, 1.0);
+	vertices[2] = point4(0.5, 0.5, 0.5, 1.0);
+	vertices[3] = point4(0.5, -0.5, 0.5, 1.0);
+	vertices[4] = point4(-0.5, -0.5, -0.5, 1.0);
+	vertices[5] = point4(-0.5, 0.5, -0.5, 1.0);
+	vertices[6] = point4(0.5, 0.5, -0.5, 1.0);
+	vertices[7] = point4(0.5, -0.5, -0.5, 1.0);
 
-    // Màu 8 đỉnh
-    vertex_colors[0] = color4(0.0f, 0.0f, 0.0f, 1.0f); // black
-    vertex_colors[1] = color4(1.0f, 0.0f, 0.0f, 1.0f); // red
-    vertex_colors[2] = color4(1.0f, 1.0f, 0.0f, 1.0f); // yellow
-    vertex_colors[3] = color4(0.0f, 1.0f, 0.0f, 1.0f); // green
-    vertex_colors[4] = color4(0.0f, 0.0f, 1.0f, 1.0f); // blue
-    vertex_colors[5] = color4(1.0f, 0.0f, 1.0f, 1.0f); // magenta
-    vertex_colors[6] = color4(1.0f, 1.0f, 1.0f, 1.0f); // white
-    vertex_colors[7] = color4(0.0f, 1.0f, 1.0f, 1.0f); // cyan
+	// Gán giá trị màu sắc cho các đỉnh của hình lập phương	
+	vertex_colors[0] = color4(0.0, 0.0, 0.0, 1.0); // black
+	vertex_colors[1] = color4(1.0, 0.0, 0.0, 1.0); // red
+	vertex_colors[2] = color4(1.0, 1.0, 0.0, 1.0); // yellow
+	vertex_colors[3] = color4(0.0, 1.0, 0.0, 1.0); // green
+	vertex_colors[4] = color4(0.0, 0.0, 1.0, 1.0); // blue
+	vertex_colors[5] = color4(1.0, 0.0, 1.0, 1.0); // magenta
+	vertex_colors[6] = color4(1.0, 1.0, 1.0, 1.0); // white
+	vertex_colors[7] = color4(0.0, 1.0, 1.0, 1.0); // cyan
 }
 
-// ---------------------------------------------------------------
-// quad: Tạo 1 mặt hình lập phương = 2 tam giác, gán màu đỉnh
-// ---------------------------------------------------------------
-static void quad(int a, int b, int c, int d)
+static void quad(int a, int b, int c, int d)  /*Tạo một mặt hình lập phương = 2 tam giác, gán màu cho mỗi đỉnh tương ứng trong mảng colors*/
 {
-    cubeColors[cubeIndex] = vertex_colors[a]; cubePoints[cubeIndex] = vertices[a]; cubeIndex++;
-    cubeColors[cubeIndex] = vertex_colors[b]; cubePoints[cubeIndex] = vertices[b]; cubeIndex++;
-    cubeColors[cubeIndex] = vertex_colors[c]; cubePoints[cubeIndex] = vertices[c]; cubeIndex++;
-    cubeColors[cubeIndex] = vertex_colors[a]; cubePoints[cubeIndex] = vertices[a]; cubeIndex++;
-    cubeColors[cubeIndex] = vertex_colors[c]; cubePoints[cubeIndex] = vertices[c]; cubeIndex++;
-    cubeColors[cubeIndex] = vertex_colors[d]; cubePoints[cubeIndex] = vertices[d]; cubeIndex++;
+	vec4 u = vertices[b] - vertices[a];
+	vec4 v = vertices[c] - vertices[b];
+	vec3 normal = normalize(cross(u, v));
+
+	normals[Index] = normal; colors[Index] = vertex_colors[a]; points[Index] = vertices[a]; Index++;
+	normals[Index] = normal; colors[Index] = vertex_colors[a]; points[Index] = vertices[b]; Index++;
+	normals[Index] = normal; colors[Index] = vertex_colors[a]; points[Index] = vertices[c]; Index++;
+	normals[Index] = normal; colors[Index] = vertex_colors[a]; points[Index] = vertices[a]; Index++;
+	normals[Index] = normal; colors[Index] = vertex_colors[a]; points[Index] = vertices[c]; Index++;
+	normals[Index] = normal; colors[Index] = vertex_colors[a]; points[Index] = vertices[d]; Index++;
 }
 
-// ---------------------------------------------------------------
-// makeColorCube: Sinh 12 tam giác (36 đỉnh) cho 6 mặt
-// ---------------------------------------------------------------
-static void makeColorCube()
+static void makeColorCube(void)  /* Sinh ra 12 tam giác: 36 đỉnh, 36 màu*/
+
 {
-    quad(1, 0, 3, 2); // mặt trước
-    quad(2, 3, 7, 6); // mặt phải
-    quad(3, 0, 4, 7); // mặt dưới
-    quad(6, 5, 1, 2); // mặt trên
-    quad(4, 5, 6, 7); // mặt sau
-    quad(5, 4, 0, 1); // mặt trái
+	Index = 0;
+	quad(1, 0, 3, 2);
+	quad(2, 3, 7, 6);
+	quad(3, 0, 4, 7);
+	quad(6, 5, 1, 2);
+	quad(4, 5, 6, 7);
+	quad(5, 4, 0, 1);
 }
 
-// ---------------------------------------------------------------
-// LapPhuong_Init: Tạo VAO/VBO, nạp geometry lên GPU
-// ---------------------------------------------------------------
-void LapPhuong_Init(GLuint program)
+static void generateLapPhuong(void)
 {
-    initCube();
-    makeColorCube();
-
-    // Tạo VAO
-    glGenVertexArrays(1, &cubeVAO);
-    glBindVertexArray(cubeVAO);
-
-    // Tạo VBO chứa points + colors nối tiếp nhau
-    glGenBuffers(1, &cubeVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-    glBufferData(GL_ARRAY_BUFFER,
-        sizeof(cubePoints) + sizeof(cubeColors),
-        NULL, GL_STATIC_DRAW);
-
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(cubePoints), cubePoints);
-    glBufferSubData(GL_ARRAY_BUFFER, sizeof(cubePoints), sizeof(cubeColors), cubeColors);
-
-    // Bind vPosition — đọc từ đầu VBO
-    GLuint loc_vPosition = glGetAttribLocation(program, "vPosition");
-    glEnableVertexAttribArray(loc_vPosition);
-    glVertexAttribPointer(loc_vPosition, 4, GL_FLOAT, GL_FALSE, 0,
-        BUFFER_OFFSET(0));
-
-    // Bind vColor — đọc từ sau phần points
-    GLuint loc_vColor = glGetAttribLocation(program, "vColor");
-    glEnableVertexAttribArray(loc_vColor);
-    glVertexAttribPointer(loc_vColor, 4, GL_FLOAT, GL_FALSE, 0,
-        BUFFER_OFFSET(sizeof(cubePoints)));
-
-    glBindVertexArray(0); // unbind
+	initCube();
+	makeColorCube();
 }
 
-// ---------------------------------------------------------------
-// LapPhuong_Draw: Gửi uModel lên shader rồi vẽ cube
-// vshader nhận uModel và nhân với vPosition
-// ---------------------------------------------------------------
-void LapPhuong_Draw(GLuint program, Angel::mat4 const& mt)
+void initLapPhuong(GLuint program)
 {
-    GLuint loc_model = glGetUniformLocation(program, "uModel");
-    glUniformMatrix4fv(loc_model, 1, GL_TRUE, mt);
+	generateLapPhuong();
 
-    glBindVertexArray(cubeVAO);
-    glDrawArrays(GL_TRIANGLES, 0, NUM_VERTS);
-    glBindVertexArray(0);
+	// Tạo một VAO - vertex array object
+	glGenVertexArrays(1, &vao_lap_phuong);
+	glBindVertexArray(vao_lap_phuong);
+
+	// Tạo và khởi tạo một buffer object
+	glGenBuffers(1, &buffer_lap_phuong);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer_lap_phuong);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(points) + sizeof(colors) + sizeof(normals), NULL, GL_STATIC_DRAW);
+
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(points), points);
+	glBufferSubData(GL_ARRAY_BUFFER, sizeof(points), sizeof(colors), colors);
+	glBufferSubData(GL_ARRAY_BUFFER, sizeof(points) + sizeof(colors), sizeof(normals), normals);
+
+	GLuint loc_vPosition = glGetAttribLocation(program, "vPosition");
+	glEnableVertexAttribArray(loc_vPosition);
+	glVertexAttribPointer(loc_vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+
+	GLuint loc_vColor = glGetAttribLocation(program, "vColor");
+	glEnableVertexAttribArray(loc_vColor);
+	glVertexAttribPointer(loc_vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(points)));
+
+	GLuint loc_vNormal = glGetAttribLocation(program, "vNormal");
+	glEnableVertexAttribArray(loc_vNormal);
+	glVertexAttribPointer(loc_vNormal, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(points) + sizeof(colors)));
 }
 
-void generateGeometry() {
-    cubeIndex = 0;
-    initCube();
-    makeColorCube();
+void drawLapPhuong(void)
+{
+	glBindVertexArray(vao_lap_phuong);
+	glDrawArrays(GL_TRIANGLES, 0, NumPoints);    /*Vẽ các tam giác*/
 }

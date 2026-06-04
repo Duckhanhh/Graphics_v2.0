@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -48,7 +48,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\glew\include;..\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
@@ -86,22 +86,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="InitShader.cpp" />
-    <ClCompile Include="Lap_phuong.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Lap_phuong.h" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Lap_phuong.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Tuong_phong.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angel.h" />
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="mat.h" />
-    <ClInclude Include="Tuong_phong.h" />
     <ClInclude Include="vec.h" />
+    <ClInclude Include="Lap_phuong.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Tuong_phong.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fshader1.glsl" />

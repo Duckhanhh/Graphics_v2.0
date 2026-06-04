@@ -1,153 +1,115 @@
-// main.cpp
-// Điểm vào duy nhất — kết hợp Lap_phuong + Tuong_phong + Camera
-//
-// Điều khiển:
-//   W/A/S/D         : tiến / trượt trái / lùi / trượt phải
-//   Q/E             : lên / xuống
-//   Chuột trái kéo  : xoay nhìn
-//   ESC             : thoát
-
-#include "Angel.h"
+﻿#include "Angel.h"
+#include "Camera.h"
 #include "Lap_phuong.h"
 #include "Tuong_phong.h"
-#include "Camera.h"
 
-// ---------------------------------------------------------------
-// Biến toàn cục
-// ---------------------------------------------------------------
-static GLuint  program;
-static Camera  camera;
-static int     windowWidth = 900;
-static int     windowHeight = 700;
-static int     lastTime = 0;
-static float   deltaTime = 100.0f;
+typedef vec4 point4;
+typedef vec4 color4;
 
-// ---------------------------------------------------------------
-// buildProjection: Perspective 60° theo tỉ lệ cửa sổ
-// ---------------------------------------------------------------
-static mat4 buildProjection()
+GLuint program;
+GLuint model_loc;
+mat4 model;
+
+void setDefaultMaterial(void)
 {
-    float aspect = (float)windowWidth / (float)windowHeight;
-    return Perspective(60.0f, aspect, 0.1f, 50.0f);
+	point4 light_position(0.0f, 0.0f, 1.0f, 0.0f);
+	color4 light_ambient(0.2f, 0.2f, 0.2f, 1.0f);
+	color4 light_diffuse(1.0f, 1.0f, 1.0f, 1.0f);
+	color4 light_specular(1.0f, 1.0f, 1.0f, 1.0f);
+
+	color4 material_ambient(1.0f, 1.0f, 1.0f, 1.0f);
+	color4 material_diffuse(1.0f, 1.0f, 1.0f, 1.0f);
+	color4 material_specular(0.2f, 0.2f, 0.2f, 1.0f);
+	float material_shininess = 50.0f;
+
+	color4 ambient_product = light_ambient * material_ambient;
+	color4 diffuse_product = light_diffuse * material_diffuse;
+	color4 specular_product = light_specular * material_specular;
+
+	glUniform4fv(glGetUniformLocation(program, "AmbientProduct"), 1, ambient_product);
+	glUniform4fv(glGetUniformLocation(program, "DiffuseProduct"), 1, diffuse_product);
+	glUniform4fv(glGetUniformLocation(program, "SpecularProduct"), 1, specular_product);
+	glUniform4fv(glGetUniformLocation(program, "LightPosition"), 1, light_position);
+	glUniform1f(glGetUniformLocation(program, "Shininess"), material_shininess);
 }
 
-// ---------------------------------------------------------------
-// display: Vẽ toàn bộ scene mỗi frame
-// ---------------------------------------------------------------
-void display()
+void shaderSetup(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// Nap cac shader va su dung chuong trinh shader
+	program = InitShader("vshader1.glsl", "fshader1.glsl");
+	glUseProgram(program);
 
-    // --- Gửi View và Projection lên shader (dùng chung mọi object) ---
-    mat4 view = camera.getViewMatrix();
-    mat4 projection = buildProjection();
+	model_loc = glGetUniformLocation(program, "Model");
+	setDefaultMaterial();
 
-    GLuint loc_view = glGetUniformLocation(program, "uView");
-    glUniformMatrix4fv(loc_view, 1, GL_TRUE, view);
+	initLapPhuong(program);
+	initCamera(program);
 
-    GLuint loc_proj = glGetUniformLocation(program, "uProjection");
-    glUniformMatrix4fv(loc_proj, 1, GL_TRUE, projection);
-
-    // --- Vẽ tường phòng ---
-    TuongPhong_Draw(program);
-
-    glutSwapBuffers();
+	glEnable(GL_DEPTH_TEST);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
 }
 
-// ---------------------------------------------------------------
-// keyboard: Di chuyển camera + ESC thoát
-// ---------------------------------------------------------------
+void display(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	model = mat4();
+	drawTuongPhong(program, model_loc, model);
+
+	glutSwapBuffers();
+}
+
+void reshape(int width, int height)
+{
+	reshapeCamera(width, height);
+}
+
 void keyboard(unsigned char key, int x, int y)
 {
-    if (key == 033) exit(0); // ESC
-
-    float speedMultiplier = 30.0f; // Tăng tốc độ di chuyển
-    camera.processKeyboard(key, deltaTime * speedMultiplier);
-    glutPostRedisplay();
+	switch (key) {
+	case 033:
+		exit(1);
+		break;
+	default:
+		if (keyboardCamera(key)) {
+			glutPostRedisplay();
+		}
+		break;
+	}
 }
 
-// ---------------------------------------------------------------
-// mouse / mouseMotion: Xoay camera bằng chuột trái
-// ---------------------------------------------------------------
 void mouse(int button, int state, int x, int y)
 {
-    camera.processMouseClick(button, state, x, y);
+	if (mouseCamera(button, state, x, y)) {
+		glutPostRedisplay();
+	}
 }
 
-void mouseMotion(int x, int y)
+void motion(int x, int y)
 {
-    camera.processMouseMove(x, y);
-    glutPostRedisplay();
+	if (motionCamera(x, y)) {
+		glutPostRedisplay();
+	}
 }
 
-// ---------------------------------------------------------------
-// reshape: Cập nhật viewport khi resize
-// ---------------------------------------------------------------
-void reshape(int w, int h)
+int main(int argc, char **argv)
 {
-    windowWidth = w;
-    windowHeight = (h > 0) ? h : 1;
-    glViewport(0, 0, windowWidth, windowHeight);
-    glutPostRedisplay();
-}
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitWindowSize(800, 800);
+	glutInitWindowPosition(100, 150);
+	glutCreateWindow("Tuong phong");
 
-// ---------------------------------------------------------------
-// idle: Tính deltaTime giữa các frame
-// ---------------------------------------------------------------
-void idle()
-{
-    int cur = glutGet(GLUT_ELAPSED_TIME);
-    deltaTime = (cur - lastTime) / 1000.0f;
-    if (deltaTime > 0.1f) deltaTime = 0.1f;
-    lastTime = cur;
-    glutPostRedisplay();
-}
+	glewInit();
 
-// ---------------------------------------------------------------
-// initScene: Nạp shader và khởi tạo toàn bộ đối tượng
-// ---------------------------------------------------------------
-void initScene()
-{
-    // Nạp shader — hàm InitShader khai báo trong Angel.h
-    program = InitShader("vshader1.glsl", "fshader1.glsl");
-    glUseProgram(program);
+	shaderSetup();
 
-    // Khởi tạo cube đơn vị (dùng cho Lap_phuong và demo cube)
-    LapPhuong_Init(program);
+	glutDisplayFunc(display);
+	glutReshapeFunc(reshape);
+	glutKeyboardFunc(keyboard);
+	glutMouseFunc(mouse);
+	glutMotionFunc(motion);
 
-    // Khởi tạo VAO/VBO riêng cho từng khối tường
-    TuongPhong_Init(program);
-
-    // Camera: đứng trước cửa, nhìn vào giữa phòng
-    camera.setPosition(2.5f, -3.0f, 1.7f);
-    camera.lookAt(2.5f, 2.0f, 1.5f);
-
-    glClearColor(0.15f, 0.15f, 0.15f, 1.0f); // Nền xám tối
-    glEnable(GL_DEPTH_TEST);                 // Bật depth test
-}
-
-// ---------------------------------------------------------------
-// main
-// ---------------------------------------------------------------
-int main(int argc, char** argv)
-{
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-    glutInitWindowSize(windowWidth, windowHeight);
-    glutInitWindowPosition(100, 100);
-    glutCreateWindow("Room Viewer  |  WASD di chuyen  |  Chuot trai xoay");
-
-    glewInit();
-    initScene();
-
-    glutDisplayFunc(display);
-    glutKeyboardFunc(keyboard);
-    glutMouseFunc(mouse);
-    glutMotionFunc(mouseMotion);
-    glutReshapeFunc(reshape);
-    glutIdleFunc(idle);
-
-    lastTime = glutGet(GLUT_ELAPSED_TIME);
-    glutMainLoop();
-    return 0;
+	glutMainLoop();
+	return 0;
 }

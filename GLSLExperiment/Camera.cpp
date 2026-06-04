@@ -1,159 +1,184 @@
-// Camera.cpp
-// Camera nhìn tự do sử dụng LookAt() từ mat.h
-// Hệ tọa độ phòng: X=rộng, Y=sâu, Z=cao (trục Z hướng lên)
+﻿#include "Camera.h"
+#include <math.h>
 
-#include "Camera.h"
-#include <cmath>
+static mat4 view;
+static mat4 projection;
+static GLuint view_loc;
+static GLuint projection_loc;
 
-// ---------------------------------------------------------------
-// Constructor: camera đứng trước cửa vào nhìn vào giữa phòng
-// ---------------------------------------------------------------
-Camera::Camera()
+static GLfloat camera_x = 2.5f;
+static GLfloat camera_y = -6.0f;
+static GLfloat camera_z = 2.0f;
+static GLfloat camera_step = 0.2f;
+static GLfloat zoom_size = 1.0f;
+static GLfloat aspect = 1.0f;
+static GLfloat yaw = 90.0f;
+static GLfloat pitch = -5.0f;
+static bool left_mouse_down = false;
+static int last_mouse_x = 0;
+static int last_mouse_y = 0;
+
+static GLfloat toRadians(GLfloat degrees)
 {
-    position = vec3(2.5f, -3.0f, 1.7f);
-    yaw = 90.0f;   // nhìn theo chiều +Y (vào phòng)
-    pitch = 0.0f;
-    moveSpeed = 3.0f;
-    mouseSensitivity = 0.2f;
-    mousePressed = false;
-    lastMouseX = lastMouseY = 0;
-
-    updateVectors();
+	return degrees * 3.1415926535f / 180.0f;
 }
 
-// ---------------------------------------------------------------
-// setPosition
-// ---------------------------------------------------------------
-void Camera::setPosition(float x, float y, float z)
+static void getCameraFront(vec3& front)
 {
-    position = vec3(x, y, z);
+	GLfloat yaw_r = toRadians(yaw);
+	GLfloat pitch_r = toRadians(pitch);
+
+	front.x = cos(pitch_r) * cos(yaw_r);
+	front.y = cos(pitch_r) * sin(yaw_r);
+	front.z = sin(pitch_r);
+
+	front = normalize(front);
 }
 
-// ---------------------------------------------------------------
-// lookAt: tính yaw/pitch để nhìn về phía (tx, ty, tz)
-// ---------------------------------------------------------------
-void Camera::lookAt(float tx, float ty, float tz)
+static void getCameraRight(vec3& right)
 {
-    float dx = tx - position.x;
-    float dy = ty - position.y;
-    float dz = tz - position.z;
-    float len = std::sqrt(dx * dx + dy * dy + dz * dz);
-    if (len > 0.0001f) { dx /= len; dy /= len; dz /= len; }
-
-    pitch = std::asin(dz) * (180.0f / (float)M_PI);
-    yaw = std::atan2(dy, dx) * (180.0f / (float)M_PI);
-    updateVectors();
+	vec3 front;
+	getCameraFront(front);
+	right = normalize(cross(front, vec3(0.0f, 0.0f, 1.0f)));
 }
 
-// ---------------------------------------------------------------
-// getViewMatrix: dùng LookAt() từ mat.h
-// ---------------------------------------------------------------
-mat4 Camera::getViewMatrix() const
+static void updateProjection()
 {
-    vec4 eye(position.x, position.y, position.z, 1.0f);
-    vec4 at(position.x + front.x,
-        position.y + front.y,
-        position.z + front.z, 1.0f);
-    vec4 upV(up.x, up.y, up.z, 0.0f);
-
-    return LookAt(eye, at, upV);
+	projection = Frustum(-zoom_size * aspect, zoom_size * aspect, -zoom_size, zoom_size, 1, 20);
+	glUniformMatrix4fv(projection_loc, 1, GL_TRUE, projection);
 }
 
-// ---------------------------------------------------------------
-// processKeyboard: W/A/S/D tiến/trượt, Q/E lên xuống
-// deltaTime (giây) chuẩn hóa tốc độ theo framerate
-// ---------------------------------------------------------------
-void Camera::processKeyboard(unsigned char key, float deltaTime)
+static void updateView()
 {
-    float v = moveSpeed * deltaTime;
+	vec3 front;
+	getCameraFront(front);
 
-    switch (key) {
-    case 'w': case 'W':
-        position.x += front.x * v;
-        position.y += front.y * v;
-        position.z += front.z * v;
-        break;
-    case 's': case 'S':
-        position.x -= front.x * v;
-        position.y -= front.y * v;
-        position.z -= front.z * v;
-        break;
-    case 'a': case 'A':
-        position.x -= right.x * v;
-        position.y -= right.y * v;
-        position.z -= right.z * v;
-        break;
-    case 'd': case 'D':
-        position.x += right.x * v;
-        position.y += right.y * v;
-        position.z += right.z * v;
-        break;
-    case 'q': case 'Q':
-        position.z += v;
-        break;
-    case 'e': case 'E':
-        position.z -= v;
-        break;
-    }
+	vec4 eye(camera_x, camera_y, camera_z, 1.0f);
+	vec4 at(camera_x + front.x, camera_y + front.y, camera_z + front.z, 1.0f);
+	vec4 up(0.0f, 0.0f, 1.0f, 0.0f);
+
+	view = LookAt(eye, at, up);
+	glUniformMatrix4fv(view_loc, 1, GL_TRUE, view);
 }
 
-// ---------------------------------------------------------------
-// processMouseClick: ghi nhận trạng thái chuột trái
-// ---------------------------------------------------------------
-void Camera::processMouseClick(int button, int state, int x, int y)
+void initCamera(GLuint program)
 {
-    if (button == GLUT_LEFT_BUTTON) {
-        mousePressed = (state == GLUT_DOWN);
-        lastMouseX = x;
-        lastMouseY = y;
-    }
+	view_loc = glGetUniformLocation(program, "View");
+	projection_loc = glGetUniformLocation(program, "Projection");
+	updateView();
+	updateProjection();
 }
 
-// ---------------------------------------------------------------
-// processMouseMove: xoay camera khi kéo chuột trái
-// ---------------------------------------------------------------
-void Camera::processMouseMove(int x, int y)
+void reshapeCamera(int width, int height)
 {
-    if (!mousePressed) return;
-
-    yaw += (x - lastMouseX) * mouseSensitivity;
-    pitch -= (y - lastMouseY) * mouseSensitivity; // dy âm = chuột lên = nhìn lên
-
-    lastMouseX = x;
-    lastMouseY = y;
-
-    // Giới hạn pitch tránh lật ngược camera
-    if (pitch > 89.0f) pitch = 89.0f;
-    if (pitch < -89.0f) pitch = -89.0f;
-
-    updateVectors();
+	if (height == 0) {
+		height = 1;
+	}
+	aspect = (GLfloat)width / (GLfloat)height;
+	updateProjection();
+	glViewport(0, 0, width, height);
 }
 
-// ---------------------------------------------------------------
-// updateVectors: tính front, right, up từ yaw và pitch
-// Hệ tọa độ: trục Z là "lên" (worldUp = 0,0,1)
-// ---------------------------------------------------------------
-void Camera::updateVectors()
+bool keyboardCamera(unsigned char key)
 {
-    float yr = yaw * (float)M_PI / 180.0f;
-    float pr = pitch * (float)M_PI / 180.0f;
+	vec3 front;
+	vec3 right;
+	getCameraFront(front);
+	getCameraRight(right);
 
-    // Vector hướng nhìn
-    front.x = std::cos(pr) * std::cos(yr);
-    front.y = std::cos(pr) * std::sin(yr);
-    front.z = std::sin(pr);
-    float lf = std::sqrt(front.x * front.x + front.y * front.y + front.z * front.z);
-    front.x /= lf; front.y /= lf; front.z /= lf;
+	switch (key) {
+	case 'w':
+	case 'W':
+		camera_x += front.x * camera_step;
+		camera_y += front.y * camera_step;
+		camera_z += front.z * camera_step;
+		break;
+	case 's':
+	case 'S':
+		camera_x -= front.x * camera_step;
+		camera_y -= front.y * camera_step;
+		camera_z -= front.z * camera_step;
+		break;
+	case 'a':
+	case 'A':
+		camera_x -= right.x * camera_step;
+		camera_y -= right.y * camera_step;
+		camera_z -= right.z * camera_step;
+		break;
+	case 'd':
+	case 'D':
+		camera_x += right.x * camera_step;
+		camera_y += right.y * camera_step;
+		camera_z += right.z * camera_step;
+		break;
+	case 'q':
+		camera_z -= camera_step;
+		break;
+	case 'Q':
+		camera_z += camera_step;
+		break;
+	default:
+		return false;
+	}
 
-    // right = front x worldUp (worldUp = Z)
-    right.x = front.y; // cross(front, Z) = (fy*1 - fz*0, fz*0 - fx*1, fx*0 - fy*0)
-    right.y = -front.x;
-    right.z = 0.0f;
-    float lr = std::sqrt(right.x * right.x + right.y * right.y);
-    if (lr > 0.0001f) { right.x /= lr; right.y /= lr; }
+	updateView();
+	return true;
+}
 
-    // up = right x front
-    up.x = right.y * front.z - right.z * front.y;
-    up.y = right.z * front.x - right.x * front.z;
-    up.z = right.x * front.y - right.y * front.x;
+bool mouseCamera(int button, int state, int x, int y)
+{
+	if (button == GLUT_LEFT_BUTTON) {
+		left_mouse_down = (state == GLUT_DOWN);
+		last_mouse_x = x;
+		last_mouse_y = y;
+		return false;
+	}
+
+	if (state != GLUT_DOWN) {
+		return false;
+	}
+
+	switch (button) {
+	case 3:
+		zoom_size *= 0.9f;
+		break;
+	case 4:
+		zoom_size *= 1.1f;
+		break;
+	default:
+		return false;
+	}
+
+	if (zoom_size < 0.2f) {
+		zoom_size = 0.2f;
+	}
+	if (zoom_size > 5.0f) {
+		zoom_size = 5.0f;
+	}
+
+	updateProjection();
+	return true;
+}
+
+bool motionCamera(int x, int y)
+{
+	if (!left_mouse_down) {
+		return false;
+	}
+
+	GLfloat rotate_step = 0.2f;
+	yaw += (x - last_mouse_x) * rotate_step;
+	pitch -= (y - last_mouse_y) * rotate_step;
+
+	if (pitch > 85.0f) {
+		pitch = 85.0f;
+	}
+	if (pitch < -85.0f) {
+		pitch = -85.0f;
+	}
+
+	last_mouse_x = x;
+	last_mouse_y = y;
+	updateView();
+	return true;
 }

@@ -15,22 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="InitShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Lap_phuong.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Tuong_phong.cpp">
+    <ClCompile Include="Lap_phuong.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Lap_phuong.cpp">
+    <ClCompile Include="Tuong_phong.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,10 +44,13 @@
     <ClInclude Include="CheckError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tuong_phong.h">
+    <ClInclude Include="Lap_phuong.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tuong_phong.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
