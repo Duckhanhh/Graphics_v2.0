@@ -326,7 +326,7 @@ void drawKhungNha(GLuint program, GLuint model_loc, const mat4& model)
 }
 void drawTuongPhong(GLuint program, GLuint model_loc, const mat4& model)
 {
-	drawKhungNha(program, model_loc, model);
+	// drawKhungNha(program, model_loc, model); // Tam an khung nha, se sua va bat lai sau
 
 	mat4 phongBep = model * Translate(4.7f, 4.8f, 0.0f) * RotateZ(90.0f);
 	tuongBenPhai(program, model_loc, phongBep);
@@ -341,4 +341,5 @@ void drawTuongPhong(GLuint program, GLuint model_loc, const mat4& model)
 	tuongCuaSoBenTren(program, model_loc, phongBep);
 	tuongCuaSoBenPhai(program, model_loc, phongBep);
 }
+
 
