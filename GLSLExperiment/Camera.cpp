@@ -44,7 +44,12 @@ static void getCameraRight(vec3& right)
 
 static void updateProjection()
 {
-	projection = Frustum(-zoom_size * aspect, zoom_size * aspect, -zoom_size, zoom_size, 1, 20);
+	const GLfloat near_plane = 0.05f;
+	const GLfloat far_plane = 100.0f;
+	projection = Frustum(
+		-zoom_size * aspect * near_plane, zoom_size * aspect * near_plane,
+		-zoom_size * near_plane, zoom_size * near_plane,
+		near_plane, far_plane);
 	glUniformMatrix4fv(projection_loc, 1, GL_TRUE, projection);
 }
 
