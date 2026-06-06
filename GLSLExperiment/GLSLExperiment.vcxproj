@@ -91,6 +91,7 @@
     <ClCompile Include="Lap_phuong.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Tuong_phong.cpp" />
+    <ClCompile Include="Tu_lanh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angel.h" />
@@ -100,6 +101,7 @@
     <ClInclude Include="Lap_phuong.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Tuong_phong.h" />
+    <ClInclude Include="Tu_lanh.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fshader1.glsl" />

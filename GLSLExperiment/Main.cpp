@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "Lap_phuong.h"
 #include "Tuong_phong.h"
+#include "Tu_lanh.h"
 
 typedef vec4 point4;
 typedef vec4 color4;
@@ -56,6 +57,10 @@ void display(void)
 	model = mat4();
 	drawTuongPhong(program, model_loc, model);
 
+	mat4 modelTuLanh = model
+		* Translate(-2.051f, 1.5925f, 0.0f);
+	drawTuLanh(program, model_loc, modelTuLanh);
+
 	glutSwapBuffers();
 }
 
@@ -69,6 +74,14 @@ void keyboard(unsigned char key, int x, int y)
 	switch (key) {
 	case 033:
 		exit(1);
+		break;
+	case 'e':
+		moCuaTuLanh();
+		glutPostRedisplay();
+		break;
+	case 'E':
+		dongCuaTuLanh();
+		glutPostRedisplay();
 		break;
 	default:
 		if (keyboardCamera(key)) {
