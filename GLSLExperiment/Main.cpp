@@ -5,6 +5,7 @@
 #include "Tu_lanh.h"
 #include "Cua_so.h"
 #include "Lo_hoa.h"
+#include "Ban_an.h"
 
 typedef vec4 point4;
 typedef vec4 color4;
@@ -68,6 +69,9 @@ void display(void)
 
 	mat4 modelLoHoa = model * Translate(0.0f, 0.0f, 0.0f);
 	drawLoHoa(program, model_loc, modelLoHoa);
+
+	mat4 modelBanAn = model * Translate(0.0f, -0.2f, 0.0f);
+	veBanAn(program, model_loc, modelBanAn);
 
 	glutSwapBuffers();
 }
