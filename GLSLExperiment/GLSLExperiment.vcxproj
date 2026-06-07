@@ -86,6 +86,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Cua_so.cpp" />
+    <ClCompile Include="Lo_hoa.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="InitShader.cpp" />
     <ClCompile Include="Lap_phuong.cpp" />
@@ -96,6 +98,8 @@
   <ItemGroup>
     <ClInclude Include="Angel.h" />
     <ClInclude Include="CheckError.h" />
+    <ClInclude Include="Cua_so.h" />
+    <ClInclude Include="Lo_hoa.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="vec.h" />
     <ClInclude Include="Lap_phuong.h" />

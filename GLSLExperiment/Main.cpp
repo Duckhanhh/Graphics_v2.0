@@ -3,6 +3,8 @@
 #include "Lap_phuong.h"
 #include "Tuong_phong.h"
 #include "Tu_lanh.h"
+#include "Cua_so.h"
+#include "Lo_hoa.h"
 
 typedef vec4 point4;
 typedef vec4 color4;
@@ -61,6 +63,12 @@ void display(void)
 		* Translate(-2.051f, 1.5925f, 0.0f);
 	drawTuLanh(program, model_loc, modelTuLanh);
 
+	mat4 modelCuaSo = model * Translate(0.0f, 2.1f, 1.7f) * RotateX(90.0f) * Scale(1.4f, 1.4f, 1.4f);
+	drawCuaSo(program, model_loc, modelCuaSo);
+
+	mat4 modelLoHoa = model * Translate(0.0f, 0.0f, 0.0f);
+	drawLoHoa(program, model_loc, modelLoHoa);
+
 	glutSwapBuffers();
 }
 
@@ -81,6 +89,14 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 'E':
 		dongCuaTuLanh();
+		glutPostRedisplay();
+		break;
+	case 'c':
+		moCuaSo();
+		glutPostRedisplay();
+		break;
+	case 'C':
+		dongCuaSo();
 		glutPostRedisplay();
 		break;
 	default:
