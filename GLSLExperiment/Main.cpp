@@ -5,6 +5,7 @@
 #include "Tu_lanh.h"
 #include "Cua_so.h"
 #include "Lo_hoa.h"
+#include "Tu_Bep.h"
 
 typedef vec4 point4;
 typedef vec4 color4;
@@ -69,6 +70,9 @@ void display(void)
 	mat4 modelLoHoa = model * Translate(0.0f, 0.0f, 0.0f);
 	drawLoHoa(program, model_loc, modelLoHoa);
 
+	mat4 tuBep =model *Translate(0.5f, 1.48f, 0.0f) * Scale(1.0f, 0.8f, 1.0f);
+	drawTuBepModel(program,model_loc,tuBep);
+
 	glutSwapBuffers();
 }
 
@@ -97,6 +101,22 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 'C':
 		dongCuaSo();
+		glutPostRedisplay();
+		break;
+	case 'h':
+		moTuPhuPhai();
+		glutPostRedisplay();
+		break;
+	case 'H':
+		dongTuPhuPhai();
+		glutPostRedisplay();
+		break;
+	case 'p':
+		moTuPhuTrai();
+		glutPostRedisplay();
+		break;
+	case 'P':
+		dongTuPhuTrai();
 		glutPostRedisplay();
 		break;
 	default:
