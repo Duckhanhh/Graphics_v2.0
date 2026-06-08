@@ -58,18 +58,14 @@ void veBanAn(GLuint program, GLuint model_loc, const mat4& model_goc)
 
     mat4 model_ban = model_goc;
 
-    // ==========================================
-    // 1. VẼ MẶT BÀN
+    //Mặt bàn
     mat4 model_matban = model_ban * Translate(0.0f, 0.0f, CHAN_Z + MAT_Z / 2.0f);
     veMatBan(program, model_loc, model_matban, mauGo);
 
-    // 2. VẼ NGĂN BÀN
-    // Đặt ở cao độkhoảng 0.52m từ mặt sàn
+    //Ngăn bàn
     mat4 model_nganban = model_ban * Translate(0.0f, 0.0f, 0.52f);
     veNganBan(program, model_loc, model_nganban, mauGo);
 
-    // ==========================================
-    // 3. VẼ 4 CHÂN BÀN
     float x_offset = (MAT_X / 2.0f) - (CHAN_X / 2.0f) - 0.02f;
     float y_offset = (MAT_Y / 2.0f) - (CHAN_Y / 2.0f) - 0.02f;
     float z_offset = CHAN_Z / 2.0f; 

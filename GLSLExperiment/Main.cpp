@@ -6,6 +6,8 @@
 #include "Cua_so.h"
 #include "Lo_hoa.h"
 #include "Ban_an.h"
+#include "Ghe.h"
+#include "Tivi.h"
 
 typedef vec4 point4;
 typedef vec4 color4;
@@ -53,6 +55,8 @@ void shaderSetup(void)
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 }
 
+GLfloat keo_ghe = 0.0f;
+
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -67,11 +71,29 @@ void display(void)
 	mat4 modelCuaSo = model * Translate(0.0f, 2.1f, 1.7f) * RotateX(90.0f) * Scale(1.4f, 1.4f, 1.4f);
 	drawCuaSo(program, model_loc, modelCuaSo);
 
-	mat4 modelLoHoa = model * Translate(0.0f, 0.0f, 0.0f);
+	mat4 modelLoHoa = model * Translate(0.0f, -0.2f, 0.6f);
 	drawLoHoa(program, model_loc, modelLoHoa);
 
 	mat4 modelBanAn = model * Translate(0.0f, -0.2f, 0.0f);
 	veBanAn(program, model_loc, modelBanAn);
+
+	mat4 modelGhe1 = modelBanAn * Translate(-0.45f - keo_ghe, -0.15f , 0.0f) * RotateZ(90.0f);
+	veGhe(program, model_loc, modelGhe1);
+
+	mat4 modelGhe2 = modelBanAn * Translate(-0.45f - keo_ghe, 0.15f, 0.0f) * RotateZ(90.0f);
+	veGhe(program, model_loc, modelGhe2);
+
+	mat4 modelGhe3 = modelBanAn * Translate(0.45f + keo_ghe, -0.15f , 0.0f) * RotateZ(270.0f);
+	veGhe(program, model_loc, modelGhe3);
+
+	mat4 modelGhe4 = modelBanAn * Translate(0.45f + keo_ghe, 0.15f, 0.0f) * RotateZ(270.0f);
+	veGhe(program, model_loc, modelGhe4);
+
+	mat4 modelVeTV = model * Translate(-0.5f, -1.85f, 0.0f) * RotateX(90.0f);
+	veTiviVaKe(program, model_loc, modelVeTV);
+
+	mat4 modelDK = modelVeTV * Translate(-0.5f, 0.2f, 0.3f / 2.0f - 0.1f);
+	veDieuKhien(program, model_loc, modelDK);
 
 	glutSwapBuffers();
 }
@@ -81,34 +103,54 @@ void reshape(int width, int height)
 	reshapeCamera(width, height);
 }
 
+bool isTvOn = false;
 void keyboard(unsigned char key, int x, int y)
 {
 	switch (key) {
 	case 033:
 		exit(1);
 		break;
+	//Đóng mở tủ lạnh
 	case 'e':
 		moCuaTuLanh();
-		glutPostRedisplay();
 		break;
 	case 'E':
 		dongCuaTuLanh();
-		glutPostRedisplay();
 		break;
+	//đóng mở cửa sổ
 	case 'c':
 		moCuaSo();
-		glutPostRedisplay();
 		break;
 	case 'C':
 		dongCuaSo();
-		glutPostRedisplay();
+		
+		break;
+	//kéo ghế ra
+	case 'k': 
+		if (keo_ghe < 0.5f) { 
+			keo_ghe += 0.05f;
+		}
+		break;
+	//Đẩy ghế vào
+	case 'd': 
+		if (keo_ghe > 0.0f) { 
+			keo_ghe -= 0.05f;
+		}
+		break;
+	//Điều khiển tắt bật tivi
+	case 't': 
+	case 'T':
+		isTvOn = !isTvOn;
+		
 		break;
 	default:
 		if (keyboardCamera(key)) {
-			glutPostRedisplay();
+			
 		}
 		break;
+
 	}
+	glutPostRedisplay();
 }
 
 void mouse(int button, int state, int x, int y)

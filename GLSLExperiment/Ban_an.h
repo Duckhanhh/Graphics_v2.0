@@ -5,4 +5,4 @@
 
 void veBanAn(GLuint program, GLuint model_loc, const mat4& model);
 
-#endif // TUONG_PHONG_H
+#endif // BAN_AN_H
