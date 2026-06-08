@@ -53,25 +53,32 @@ void veKhoiTivi(GLuint program, GLuint model_loc, mat4 matrix, GLfloat sx, GLflo
 	mat4 instance = Scale(sx, sy, sz);
 	drawBlock(program, model_loc, matrix, instance, mau);
 }
+
 extern bool isTvOn;
 void veTiviVaKe(GLuint program, GLuint model_loc, const mat4& model_goc)
 {
 	const color4 mauKe(210 / 255.0f, 140 / 255.0f, 70 / 255.0f, 1.0f);  // Màu kệ
-	const color4 mauTvOff(10 / 255.0f, 10 / 255.0f, 15 / 255.0f, 1.0f); // Màu tivi khi tắt
+	const color4 mauTvOff(10 / 255.0f, 10 / 255.0f, 15 / 255.0f, 1.0f); // Màu tivi khi tắt + viền
 	const color4 mauTvOn(100 / 255.0f, 200 / 255.0f, 255 / 255.0f, 1.0f); // Màu tivi khi bật
 	
 	//Kệ gỗ
-	mat4 model_ke = model_goc * Translate(0.0f, CAO_KE / 2.0f, 0.0f);
-	veKhoiTivi(program, model_loc, model_ke, RONG_KE, CAO_KE, SAU_KE, mauKe);
+	mat4 ke = model_goc * Translate(0.0f, CAO_KE / 2.0f, 0.0f);
+	veKhoiTivi(program, model_loc, ke, RONG_KE, CAO_KE, SAU_KE, mauKe);
 
 	//Chân đế tivi
-	mat4 model_stand = model_ke * Translate(0.0f, CAO_KE / 2.0f + CAO_STAND / 2.0f, 0.0f);
-	veKhoiTivi(program, model_loc, model_stand, RONG_STAND, CAO_STAND, SAU_STAND, mauTvOff);
+	mat4 de = ke * Translate(0.0f, CAO_KE / 2.0f + CAO_STAND / 2.0f, 0.0f);
+	veKhoiTivi(program, model_loc, de, RONG_STAND, CAO_STAND, SAU_STAND, mauTvOff);
 
+	GLfloat VIEN_DAY = 0.02f; // Độ dày của viền tivi (3cm)
+	GLfloat RONG_MAN_HINH = RONG_TV - 2 * VIEN_DAY;
+	GLfloat CAO_MAN_HINH = CAO_TV - 2 * VIEN_DAY;
+	GLfloat SAU_MAN_HINH = SAU_TV + 0.002f; // Màn hình rất mỏng
 	//Màn hình tivi
-	mat4 model_tv_screen = model_stand * Translate(0.0f, CAO_STAND / 2.0f + CAO_TV / 2.0f, 0.0f);
+	mat4 khung = de * Translate(0.0f, CAO_STAND / 2.0f + CAO_TV / 2.0f, 0.0f);
+	veKhoiTivi(program, model_loc, khung, RONG_TV, CAO_TV, SAU_TV, mauTvOff);
+	//mat4 man = ke * Translate(0.0f, 0.0f, SAU_TV / 2.0f + SAU_MAN_HINH / 2.0f);
 	color4 mauTv = isTvOn ? mauTvOn : mauTvOff;
-	veKhoiTivi(program, model_loc, model_tv_screen, RONG_TV, CAO_TV, SAU_TV, mauTv);
+	veKhoiTivi(program, model_loc, khung, RONG_MAN_HINH, CAO_MAN_HINH, SAU_MAN_HINH, mauTv);
 }
 
 void veDieuKhien(GLuint program, GLuint model_loc, const mat4& model_goc)
@@ -80,10 +87,10 @@ void veDieuKhien(GLuint program, GLuint model_loc, const mat4& model_goc)
 	const color4 mauNutNguon(0.8f, 0.1f, 0.1f, 1.0f);
 	
 	//Điều khiển
-	mat4 model_than = model_goc * Translate(0.0f, CAO_DK / 2.0f, 0.0f);
-	veKhoiTivi(program, model_loc, model_than, RONG_DK, CAO_DK, SAU_DK, mauDieuKhien);
+	mat4 than = model_goc * Translate(0.0f, CAO_DK / 2.0f, 0.0f);
+	veKhoiTivi(program, model_loc, than, RONG_DK, CAO_DK, SAU_DK, mauDieuKhien);
 
 	//Nút nguồn
-	mat4 model_nut = model_than * Translate(0.0f, CAO_DK / 2.0f + CAO_NUT / 2.0f, -SAU_DK / 2.0f + 0.03f);
-	veKhoiTivi(program, model_loc, model_nut, RONG_NUT, CAO_NUT, SAU_NUT, mauNutNguon);
+	mat4 nut = than * Translate(0.0f, CAO_DK / 2.0f + CAO_NUT / 2.0f, -SAU_DK / 2.0f + 0.03f);
+	veKhoiTivi(program, model_loc, nut, RONG_NUT, CAO_NUT, SAU_NUT, mauNutNguon);
 }

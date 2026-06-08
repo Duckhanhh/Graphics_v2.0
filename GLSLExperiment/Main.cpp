@@ -56,6 +56,10 @@ void shaderSetup(void)
 }
 
 GLfloat keo_ghe = 0.0f;
+GLfloat keo_ghe_1 = 0.0f;
+GLfloat keo_ghe_2 = 0.0f;
+GLfloat keo_ghe_3 = 0.0f;
+GLfloat keo_ghe_4 = 0.0f;
 
 void display(void)
 {
@@ -71,22 +75,22 @@ void display(void)
 	mat4 modelCuaSo = model * Translate(0.0f, 2.1f, 1.7f) * RotateX(90.0f) * Scale(1.4f, 1.4f, 1.4f);
 	drawCuaSo(program, model_loc, modelCuaSo);
 
-	mat4 modelLoHoa = model * Translate(0.0f, -0.2f, 0.6f);
+	mat4 modelLoHoa = model * Translate(-0.2f, -0.2f, 0.6f);
 	drawLoHoa(program, model_loc, modelLoHoa);
 
-	mat4 modelBanAn = model * Translate(0.0f, -0.2f, 0.0f);
+	mat4 modelBanAn = model * Translate(-0.2f, -0.2f, 0.0f);
 	veBanAn(program, model_loc, modelBanAn);
 
-	mat4 modelGhe1 = modelBanAn * Translate(-0.45f - keo_ghe, -0.15f , 0.0f) * RotateZ(90.0f);
+	mat4 modelGhe1 = modelBanAn * Translate(-0.45f - keo_ghe - keo_ghe_1, -0.15f , 0.0f) * RotateZ(90.0f);
 	veGhe(program, model_loc, modelGhe1);
 
-	mat4 modelGhe2 = modelBanAn * Translate(-0.45f - keo_ghe, 0.15f, 0.0f) * RotateZ(90.0f);
+	mat4 modelGhe2 = modelBanAn * Translate(-0.45f - keo_ghe - keo_ghe_2, 0.15f, 0.0f) * RotateZ(90.0f);
 	veGhe(program, model_loc, modelGhe2);
 
-	mat4 modelGhe3 = modelBanAn * Translate(0.45f + keo_ghe, -0.15f , 0.0f) * RotateZ(270.0f);
+	mat4 modelGhe3 = modelBanAn * Translate(0.45f + keo_ghe + keo_ghe_3, -0.15f , 0.0f) * RotateZ(270.0f);
 	veGhe(program, model_loc, modelGhe3);
 
-	mat4 modelGhe4 = modelBanAn * Translate(0.45f + keo_ghe, 0.15f, 0.0f) * RotateZ(270.0f);
+	mat4 modelGhe4 = modelBanAn * Translate(0.45f + keo_ghe + keo_ghe_4, 0.15f, 0.0f) * RotateZ(270.0f);
 	veGhe(program, model_loc, modelGhe4);
 
 	mat4 modelVeTV = model * Translate(-0.5f, -1.85f, 0.0f) * RotateX(90.0f);
@@ -125,16 +129,61 @@ void keyboard(unsigned char key, int x, int y)
 		dongCuaSo();
 		
 		break;
-	//kéo ghế ra
+	//kéo 4 ghế ra
 	case 'k': 
 		if (keo_ghe < 0.5f) { 
 			keo_ghe += 0.05f;
 		}
 		break;
-	//Đẩy ghế vào
+	//Đẩy 4 ghế vào
 	case 'd': 
 		if (keo_ghe > 0.0f) { 
 			keo_ghe -= 0.05f;
+		}
+		break;
+		//kéo 4 ghế ra
+	case 'm':
+		if (keo_ghe_1 < 0.5f) {
+			keo_ghe_1 += 0.05f;
+		}
+		break;
+		//Đẩy 4 ghế vào
+	case 'M':
+		if (keo_ghe_1 > 0.0f) {
+			keo_ghe_1 -= 0.05f;
+		}
+		break;
+	case 'n':
+		if (keo_ghe_2 < 0.5f) {
+			keo_ghe_2 += 0.05f;
+		}
+		break;
+		//Đẩy 4 ghế vào
+	case 'N':
+		if (keo_ghe_2 > 0.0f) {
+			keo_ghe_2 -= 0.05f;
+		}
+		break;
+	case 'p':
+		if (keo_ghe_3 < 0.5f) {
+			keo_ghe_3 += 0.05f;
+		}
+		break;
+		//Đẩy 4 ghế vào
+	case 'P':
+		if (keo_ghe_3 > 0.0f) {
+			keo_ghe_3 -= 0.05f;
+		}
+		break;
+	case 'q':
+		if (keo_ghe_4 < 0.5f) {
+			keo_ghe_4 += 0.05f;
+		}
+		break;
+		//Đẩy 4 ghế vào
+	case 'Q':
+		if (keo_ghe_4 > 0.0f) {
+			keo_ghe_4 -= 0.05f;
 		}
 		break;
 	//Điều khiển tắt bật tivi
