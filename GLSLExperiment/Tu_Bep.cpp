@@ -142,24 +142,7 @@ static void drawBlock(GLuint program, GLuint model_loc, const mat4& model, const
         drawBlock(program, model_loc, model, tayCam5, mauTayCam);
     }
 
-    //void drawCanhPhaiTuPhu(
-    //    GLuint program,
-    //    GLuint model_loc,
-    //    const mat4& model)
-    //{
-    //    color4 mauTrang(1, 1, 1, 1);
-    //    color4 mauTayCam(0.7f, 0.7f, 0.7f, 1.0f);
-
-    //    // Cánh 1
-    //    mat4 canhPhu1 =Translate(1.21f, -1.58f, 0.45f) * Scale(0.03f, 0.75f, 0.80f);
-    //    drawBlock(program, model_loc, model, canhPhu1, mauTrang);
-
-    //    // Tay cầm cánh 1
-    //    mat4 tayCam1 = Translate(1.17f , -1.38f, 0.45f) * Scale(0.02f, 0.05f, 0.2f);
-    //    drawBlock(program, model_loc, model, tayCam1, mauTayCam);
-
-
-    //}
+    
     void drawCanhPhaiTuPhu(GLuint program, GLuint model_loc, const mat4& model)
     {
         color4 mauTrang(1, 1, 1, 1);
@@ -173,22 +156,7 @@ static void drawBlock(GLuint program, GLuint model_loc, const mat4& model, const
             * Scale(0.02f, 0.05f, 0.25f);
         drawBlock(program, model_loc, model, tayCam, mauTayNam);
     }
-    //void drawCanhTraiTuPhu(
-    //    GLuint program,
-    //    GLuint model_loc,
-    //    const mat4& model)
-    //{
-    //    color4 mauTrang(1, 1, 1, 1);
-    //    color4 mauTayCam(0.7f, 0.7f, 0.7f, 1.0f);
-
-    //    // Cánh 2
-    //    mat4 canhPhu2 = Translate(1.21f, -0.80f, 0.45f) * Scale(0.03f, 0.71f, 0.80f);
-    //    drawBlock(program, model_loc, model, canhPhu2, mauTrang);
-
-    //    // Tay cầm cánh 2
-    //    mat4 tayCam2 = Translate(1.17f, -1.0f, 0.45f) * Scale(0.02f, 0.05f, 0.2f);
-    //    drawBlock(program, model_loc, model, tayCam2, mauTayCam);
-    //}
+   
     void drawCanhTraiTuPhu(GLuint program, GLuint model_loc, const mat4& model)
     {
         color4 mauTrang(1, 1, 1, 1);
@@ -245,17 +213,11 @@ static void drawBlock(GLuint program, GLuint model_loc, const mat4& model, const
 
         drawKhungTuPhu(program, model_loc, model);
         drawTayCamTuChinh(program, model_loc, model);
-       // mat4 modelCuaTrai = model * Translate(0.015f, -0.375f, 0.0f) * RotateZ(mocuaTrai) * Translate(-0.015f, 0.375f, 0.0f);
-        //mat4 modelCuaTrai = model  * RotateZ(mocuaTrai) ;
         mat4 modelCuaTrai = model * Translate(1.21f, -1.155f, 0.45f) * RotateZ(mocuaTrai);
 
         
         drawCanhTraiTuPhu(program, model_loc, modelCuaTrai);
-        mat4 modelCuaPhai =
-            model
-            * Translate(1.21f, -1.955f, 0.45f)
-            * RotateZ(mocuaPhai);
-        //mat4 modelCuaPhai = model * Translate(-0.015f, 0.355f, 0.0f) * RotateZ(mocuaPhai) * Translate(0.015f, -0.355f, 0.0f);
+        mat4 modelCuaPhai = model* Translate(1.21f, -1.955f, 0.45f)* RotateZ(mocuaPhai);
         drawCanhPhaiTuPhu(program, model_loc, modelCuaPhai);
     }
     
