@@ -86,19 +86,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ban_an.cpp" />
     <ClCompile Include="Cua_so.cpp" />
+    <ClCompile Include="Ghe.cpp" />
     <ClCompile Include="Lo_hoa.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="InitShader.cpp" />
     <ClCompile Include="Lap_phuong.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Tivi.cpp" />
     <ClCompile Include="Tuong_phong.cpp" />
     <ClCompile Include="Tu_lanh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angel.h" />
+    <ClInclude Include="Ban_an.h" />
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="Cua_so.h" />
+    <ClInclude Include="Ghe.h" />
+    <ClInclude Include="Tivi.h" />
     <ClInclude Include="Lo_hoa.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="vec.h" />
