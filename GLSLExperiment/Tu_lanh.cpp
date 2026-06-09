@@ -26,6 +26,7 @@ static void drawBlock(GLuint program, GLuint model_loc, const mat4& model, const
 	drawLapPhuong();
 }
 
+
 void drawThanTuLanh(GLuint program, GLuint model_loc, const mat4& model)
 {
 	// Vỏ hông trái
