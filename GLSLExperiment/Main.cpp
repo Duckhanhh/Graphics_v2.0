@@ -119,6 +119,26 @@ void keyboard(unsigned char key, int x, int y)
 		dongTuPhuTrai();
 		glutPostRedisplay();
 		break;
+	case '1':
+		keoNganTu1();
+		glutPostRedisplay();
+		break;
+	case '2':
+		dongNganTu1();
+		glutPostRedisplay();
+		break;
+	case '3':
+		keoNganTu2();
+		glutPostRedisplay();
+		break;
+	case '4':
+		dongNganTu2();
+		glutPostRedisplay();
+		break;
+	case 'b':
+		batTatBepGa();
+		glutPostRedisplay();
+		break;
 	default:
 		if (keyboardCamera(key)) {
 			glutPostRedisplay();

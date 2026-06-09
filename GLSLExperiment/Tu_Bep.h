@@ -9,4 +9,9 @@ void moTuPhuTrai();
 void moTuPhuPhai();
 void dongTuPhuTrai();
 void dongTuPhuPhai();
+void keoNganTu1();
+void dongNganTu1();
+void keoNganTu2();
+void dongNganTu2();
+void batTatBepGa();
 #endif
