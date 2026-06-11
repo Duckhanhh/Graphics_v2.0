@@ -8,6 +8,7 @@
 #include "Ban_an.h"
 #include "Ghe.h"
 #include "Tivi.h"
+#include "Tu_Bep.h"
 
 typedef vec4 point4;
 typedef vec4 color4;
@@ -98,6 +99,9 @@ void display(void)
 
 	mat4 modelDK = modelVeTV * Translate(-0.5f, 0.2f, 0.3f / 2.0f - 0.1f);
 	veDieuKhien(program, model_loc, modelDK);
+
+	mat4 tuBep =model *Translate(0.5f, 1.48f, 0.0f) * Scale(1.0f, 0.8f, 1.0f);
+	drawTuBepModel(program,model_loc,tuBep);
 
 	glutSwapBuffers();
 }
@@ -191,6 +195,42 @@ void keyboard(unsigned char key, int x, int y)
 	case 'T':
 		isTvOn = !isTvOn;
 		
+		break;
+	case 'h':
+		moTuPhuPhai();
+		glutPostRedisplay();
+		break;
+	case 'H':
+		dongTuPhuPhai();
+		glutPostRedisplay();
+		break;
+	case 'g':
+		moTuPhuTrai();
+		glutPostRedisplay();
+		break;
+	case 'G':
+		dongTuPhuTrai();
+		glutPostRedisplay();
+		break;
+	case '1':
+		keoNganTu1();
+		glutPostRedisplay();
+		break;
+	case '2':
+		dongNganTu1();
+		glutPostRedisplay();
+		break;
+	case '3':
+		keoNganTu2();
+		glutPostRedisplay();
+		break;
+	case '4':
+		dongNganTu2();
+		glutPostRedisplay();
+		break;
+	case 'b':
+		batTatBepGa();
+		glutPostRedisplay();
 		break;
 	default:
 		if (keyboardCamera(key)) {
