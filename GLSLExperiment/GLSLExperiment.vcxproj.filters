@@ -39,6 +39,15 @@
     <ClCompile Include="Lo_hoa.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ban_an.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ghe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tivi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Tu_Bep.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,6 +81,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Lo_hoa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ban_an.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ghe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tivi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tu_Bep.h">
