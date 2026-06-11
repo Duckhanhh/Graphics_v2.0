@@ -136,7 +136,7 @@ void keyboard(unsigned char key, int x, int y)
 		}
 		break;
 	//Đẩy 4 ghế vào
-	case 'd': 
+	case '/': 
 		if (keo_ghe > 0.0f) { 
 			keo_ghe -= 0.05f;
 		}
