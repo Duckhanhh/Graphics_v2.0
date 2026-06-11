@@ -175,13 +175,13 @@ void keyboard(unsigned char key, int x, int y)
 			keo_ghe_3 -= 0.05f;
 		}
 		break;
-	case 'q':
+	case 'v':
 		if (keo_ghe_4 < 0.5f) {
 			keo_ghe_4 += 0.05f;
 		}
 		break;
 		//Đẩy 4 ghế vào
-	case 'Q':
+	case 'V':
 		if (keo_ghe_4 > 0.0f) {
 			keo_ghe_4 -= 0.05f;
 		}
