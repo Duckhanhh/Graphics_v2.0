@@ -69,14 +69,13 @@ void veTiviVaKe(GLuint program, GLuint model_loc, const mat4& model_goc)
 	mat4 de = ke * Translate(0.0f, CAO_KE / 2.0f + CAO_STAND / 2.0f, 0.0f);
 	veKhoiTivi(program, model_loc, de, RONG_STAND, CAO_STAND, SAU_STAND, mauTvOff);
 
-	GLfloat VIEN_DAY = 0.02f; // Độ dày của viền tivi (3cm)
+	GLfloat VIEN_DAY = 0.02f; 
 	GLfloat RONG_MAN_HINH = RONG_TV - 2 * VIEN_DAY;
 	GLfloat CAO_MAN_HINH = CAO_TV - 2 * VIEN_DAY;
 	GLfloat SAU_MAN_HINH = SAU_TV + 0.002f; // Màn hình rất mỏng
 	//Màn hình tivi
 	mat4 khung = de * Translate(0.0f, CAO_STAND / 2.0f + CAO_TV / 2.0f, 0.0f);
 	veKhoiTivi(program, model_loc, khung, RONG_TV, CAO_TV, SAU_TV, mauTvOff);
-	//mat4 man = ke * Translate(0.0f, 0.0f, SAU_TV / 2.0f + SAU_MAN_HINH / 2.0f);
 	color4 mauTv = isTvOn ? mauTvOn : mauTvOff;
 	veKhoiTivi(program, model_loc, khung, RONG_MAN_HINH, CAO_MAN_HINH, SAU_MAN_HINH, mauTv);
 }

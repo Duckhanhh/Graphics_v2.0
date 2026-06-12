@@ -8,7 +8,7 @@
 #include "Ban_an.h"
 #include "Ghe.h"
 #include "Tivi.h"
-
+#include "Dia.h"
 typedef vec4 point4;
 typedef vec4 color4;
 
@@ -39,6 +39,7 @@ void setDefaultMaterial(void)
 	glUniform1f(glGetUniformLocation(program, "Shininess"), material_shininess);
 }
 
+
 void shaderSetup(void)
 {
 	// Nap cac shader va su dung chuong trinh shader
@@ -50,7 +51,7 @@ void shaderSetup(void)
 
 	initLapPhuong(program);
 	initCamera(program);
-
+	initDiaTron(program);//Thêm vào để vẽ đĩa tròn
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 }
@@ -80,6 +81,8 @@ void display(void)
 
 	mat4 modelBanAn = model * Translate(-0.2f, -0.2f, 0.0f);
 	veBanAn(program, model_loc, modelBanAn);
+	
+	veDia(program, model_loc, modelBanAn, 0.75f);
 
 	mat4 modelGhe1 = modelBanAn * Translate(-0.45f - keo_ghe - keo_ghe_1, -0.15f , 0.0f) * RotateZ(90.0f);
 	veGhe(program, model_loc, modelGhe1);
@@ -99,6 +102,7 @@ void display(void)
 	mat4 modelDK = modelVeTV * Translate(-0.5f, 0.2f, 0.3f / 2.0f - 0.1f);
 	veDieuKhien(program, model_loc, modelDK);
 
+	
 	glutSwapBuffers();
 }
 
@@ -129,19 +133,6 @@ void keyboard(unsigned char key, int x, int y)
 		dongCuaSo();
 		
 		break;
-	//kéo 4 ghế ra
-	case 'k': 
-		if (keo_ghe < 0.5f) { 
-			keo_ghe += 0.05f;
-		}
-		break;
-	//Đẩy 4 ghế vào
-	case '/': 
-		if (keo_ghe > 0.0f) { 
-			keo_ghe -= 0.05f;
-		}
-		break;
-		//kéo 4 ghế ra
 	case 'm':
 		if (keo_ghe_1 < 0.5f) {
 			keo_ghe_1 += 0.05f;
@@ -190,7 +181,6 @@ void keyboard(unsigned char key, int x, int y)
 	case 't': 
 	case 'T':
 		isTvOn = !isTvOn;
-		
 		break;
 	default:
 		if (keyboardCamera(key)) {
