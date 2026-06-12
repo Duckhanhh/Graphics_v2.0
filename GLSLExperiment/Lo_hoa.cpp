@@ -2,12 +2,17 @@
 #include "Lap_phuong.h"
 
 typedef vec4 color4;
+extern bool isLightOn;
+extern float lightIntensity;
 
 // Hàm thiết lập vật liệu bóng loáng cho lọ gốm sứ và hoa
 static void setMaterialLoHoa(GLuint program, const color4& material_color) {
-	color4 light_ambient(0.2f, 0.2f, 0.2f, 1.0f);
-	color4 light_diffuse(1.0f, 1.0f, 1.0f, 1.0f);
-	color4 light_specular(1.0f, 1.0f, 1.0f, 1.0f);
+	float intensity = isLightOn ? lightIntensity : 0.0f;
+	float ambient_intensity = isLightOn ? (0.2f * lightIntensity) : 0.05f;
+
+	color4 light_ambient(ambient_intensity, ambient_intensity, ambient_intensity, 1.0f);
+	color4 light_diffuse(1.0f * intensity, 1.0f * intensity, 1.0f * intensity, 1.0f);
+	color4 light_specular(1.0f * intensity, 1.0f * intensity, 1.0f * intensity, 1.0f);
 	color4 material_specular(0.6f, 0.6f, 0.6f, 1.0f); // Tăng specular cho độ bóng gốm
 
 	color4 ambient_product = light_ambient * material_color;

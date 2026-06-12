@@ -3,48 +3,63 @@
 
 typedef vec4 color4;
 
-// Biến trạng thái lưu độ trượt của cửa (trượt theo trục X)
 static float do_truot_cua_so = 0.0f;
+extern bool isLightOn;
+extern float lightIntensity;
 
-// Hàm thiết lập vật liệu (copy style từ Tu_lanh.cpp)
+// Khai báo các biến cache để tối ưu hiệu suất (tránh gọi glGetUniformLocation liên tục)
+static GLuint ambient_loc = -1;
+static GLuint diffuse_loc = -1;
+static GLuint specular_loc = -1;
+static GLuint shininess_loc = -1;
+
 static void setMaterialCuaSo(GLuint program, const color4& material_color) {
-	color4 light_ambient(0.2f, 0.2f, 0.2f, 1.0f);
-	color4 light_diffuse(1.0f, 1.0f, 1.0f, 1.0f);
-	color4 light_specular(1.0f, 1.0f, 1.0f, 1.0f);
+	if (ambient_loc == -1) {
+		ambient_loc = glGetUniformLocation(program, "AmbientProduct");
+		diffuse_loc = glGetUniformLocation(program, "DiffuseProduct");
+		specular_loc = glGetUniformLocation(program, "SpecularProduct");
+		shininess_loc = glGetUniformLocation(program, "Shininess");
+	}
+
+	float intensity = isLightOn ? lightIntensity : 0.0f;
+	float ambient_intensity = isLightOn ? (0.2f * lightIntensity) : 0.05f;
+
+	color4 light_ambient(ambient_intensity, ambient_intensity, ambient_intensity, 1.0f);
+	color4 light_diffuse(1.0f * intensity, 1.0f * intensity, 1.0f * intensity, 1.0f);
+	color4 light_specular(1.0f * intensity, 1.0f * intensity, 1.0f * intensity, 1.0f);
 	color4 material_specular(0.5f, 0.5f, 0.5f, 1.0f);
 
 	color4 ambient_product = light_ambient * material_color;
 	color4 diffuse_product = light_diffuse * material_color;
 	color4 specular_product = light_specular * material_specular;
 
-	glUniform4fv(glGetUniformLocation(program, "AmbientProduct"), 1, ambient_product);
-	glUniform4fv(glGetUniformLocation(program, "DiffuseProduct"), 1, diffuse_product);
-	glUniform4fv(glGetUniformLocation(program, "SpecularProduct"), 1, specular_product);
-	glUniform1f(glGetUniformLocation(program, "Shininess"), 80.0f);
+	glUniform4fv(ambient_loc, 1, ambient_product);
+	glUniform4fv(diffuse_loc, 1, diffuse_product);
+	glUniform4fv(specular_loc, 1, specular_product);
+	glUniform1f(shininess_loc, 80.0f);
 }
 
-// Hàm vẽ khối cơ bản có áp dụng ma trận (copy style từ Tu_lanh.cpp)
 static void drawBlockCuaSo(GLuint program, GLuint model_loc, const mat4& model, const mat4& instance, const color4& material_color) {
 	setMaterialCuaSo(program, material_color);
 	glUniformMatrix4fv(model_loc, 1, GL_TRUE, model * instance);
 	drawLapPhuong();
 }
 
-// --- CÁC HÀM XỬ LÝ LOGIC ---
 void moCuaSo(void) {
-	// Giới hạn độ trượt tối đa để cửa không bay ra khỏi khung
 	if (do_truot_cua_so < 0.45f) {
 		do_truot_cua_so += 0.05f;
 	}
 }
 
 void dongCuaSo(void) {
-	if (do_truot_cua_so > 0.1f) {
+	if (do_truot_cua_so > 0.0f) {
 		do_truot_cua_so -= 0.05f;
+		if (do_truot_cua_so < 0.0f) {
+			do_truot_cua_so = 0.0f;
+		}
 	}
 }
 
-// --- CÁC HÀM VẼ THÀNH PHẦN ---
 void drawKhungCuaSo(GLuint program, GLuint model_loc, const mat4& model) {
 	color4 mauKhung(0.4f, 0.2f, 0.0f, 1.0f); // Màu nâu gỗ
 
@@ -93,7 +108,6 @@ void drawCanhCuaPhai(GLuint program, GLuint model_loc, const mat4& model) {
 	drawBlockCuaSo(program, model_loc, model, instanceKinh, mauKinh);
 }
 
-// --- HÀM TỔNG HỢP ---
 void drawCuaSo(GLuint program, GLuint model_loc, const mat4& model) {
 	// 1. Vẽ khung cố định
 	drawKhungCuaSo(program, model_loc, model);
@@ -103,7 +117,6 @@ void drawCuaSo(GLuint program, GLuint model_loc, const mat4& model) {
 	drawCanhCuaPhai(program, model_loc, modelCanhPhai);
 
 	// 3. Vẽ cánh trái (CÓ TRƯỢT SANG NGANG)
-	// Áp dụng biến do_truot_cua_so vào ma trận tịnh tiến
 	mat4 modelCanhTrai = model * Translate(-0.24f + do_truot_cua_so, 0.0f, 0.0f);
 	drawCanhCuaTrai(program, model_loc, modelCanhTrai);
 }

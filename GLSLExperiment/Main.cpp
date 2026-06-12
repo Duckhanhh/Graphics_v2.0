@@ -10,6 +10,7 @@
 #include "Tivi.h"
 #include "Dia.h"
 #include "Tu_Bep.h"
+#include "Den.h"
 
 typedef vec4 point4;
 typedef vec4 color4;
@@ -17,6 +18,8 @@ typedef vec4 color4;
 GLuint program;
 GLuint model_loc;
 mat4 model;
+bool isLightOn = true;
+float lightIntensity = 1.0f;
 
 void setDefaultMaterial(void)
 {
@@ -106,6 +109,8 @@ void display(void)
 
 	mat4 tuBep =model *Translate(0.5f, 1.48f, 0.0f) * Scale(1.0f, 0.8f, 1.0f);
 	drawTuBepModel(program,model_loc,tuBep);
+
+	veBongDen(program, model_loc, model);
 
 	glutSwapBuffers();
 }
@@ -226,6 +231,20 @@ void keyboard(unsigned char key, int x, int y)
 	case 'b':
 		batTatBepGa();
 		glutPostRedisplay();
+		break;
+		// Bật / Tắt bóng đèn
+	case 'l': case 'L':
+		isLightOn = !isLightOn;
+		break;
+
+		// Tăng độ sáng (Giới hạn tối đa là 2.0)
+	case '+': case '=':
+		if (lightIntensity < 2.0f) lightIntensity += 0.1f;
+		break;
+
+		// Giảm độ sáng (Giới hạn tối thiểu là 0.0)
+	case '-': case '_':
+		if (lightIntensity > 0.0f) lightIntensity -= 0.1f;
 		break;
 	default:
 		if (keyboardCamera(key)) {
