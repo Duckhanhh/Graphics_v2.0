@@ -2,6 +2,7 @@
 #include "Angel.h"
 
 
+
 void printShaderInfoLog(GLuint obj);     //Bổ sung - hàm in thông tin debug shader
 void printProgramInfoLog(GLuint obj);    //Bổ sung - hàm in thông tin debug program
 static char* readShaderSource(const char* shaderFile);
@@ -97,6 +98,7 @@ InitShader(const char* vShaderFile, const char* fShaderFile)
 
 	exit( EXIT_FAILURE );
     }
+
 
     /* use program object */
     glUseProgram(program);

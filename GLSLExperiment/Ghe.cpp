@@ -76,10 +76,6 @@ void veGhe(GLuint program, GLuint model_loc, const mat4& model_goc)
     mat4 m_chan_sp = model_ghe * Translate(half_rong - half_chan, half_sau - half_chan, GHE_CAO_TONG / 2.0f);
     veKhoiGhe(program, model_loc, m_chan_sp, GHE_CHAN_DAY, GHE_CHAN_DAY, GHE_CAO_TONG, mauGo);
 
-
-    // =========================================================================
-    // MẶT VÁN GỖ ĐỠ NỆM 
-    // =========================================================================
     mat4 model_van_go = model_ghe * Translate(0.0f, 0.0f, cao_chan_truoc + GHE_GO_DAY / 2.0f);
     veKhoiGhe(program, model_loc, model_van_go, GHE_RONG, GHE_SAU, GHE_GO_DAY, mauGo);
 
@@ -87,13 +83,9 @@ void veGhe(GLuint program, GLuint model_loc, const mat4& model_goc)
     mat4 model_dem_ngoi = model_van_go * Translate(0.0f, 0.0f, GHE_GO_DAY / 2.0f + GHE_DEM_DAY / 2.0f);
     veKhoiGhe(program, model_loc, model_dem_ngoi, GHE_RONG, GHE_SAU, GHE_DEM_DAY, mauDem);
 
-
     //Tựa lưng
     mat4 model_khung_tua = model_ghe * Translate(0.0f, half_sau - half_chan, 0.0f);
 
-    // -------------------------------------------------------------------------
-    // THANH GỖ NGANG TRÊN CÙNG
-    // -------------------------------------------------------------------------
     float rong_tua = GHE_RONG - 2 * GHE_CHAN_DAY;
     float cao_thanh_ngang = 0.06f;
     mat4 model_thanh_ngang = model_khung_tua * Translate(0.0f, 0.0f, GHE_CAO_TONG - cao_thanh_ngang / 2.0f);

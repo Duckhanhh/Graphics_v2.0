@@ -90,6 +90,7 @@
     <ClCompile Include="Den.cpp" />
     <ClCompile Include="Tu_Bep.cpp" />
     <ClCompile Include="Cua_so.cpp" />
+    <ClCompile Include="Dia.cpp" />
     <ClCompile Include="Ghe.cpp" />
     <ClCompile Include="Lo_hoa.cpp" />
     <ClCompile Include="main.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="Cua_so.h" />
     <ClInclude Include="Den.h" />
+    <ClInclude Include="Dia.h" />
     <ClInclude Include="Ghe.h" />
     <ClInclude Include="Tivi.h" />
     <ClInclude Include="Lo_hoa.h" />
