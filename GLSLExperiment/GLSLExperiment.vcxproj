@@ -87,6 +87,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ban_an.cpp" />
+    <ClCompile Include="Tu_Bep.cpp" />
     <ClCompile Include="Cua_so.cpp" />
     <ClCompile Include="Dia.cpp" />
     <ClCompile Include="Ghe.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="Tivi.h" />
     <ClInclude Include="Lo_hoa.h" />
     <ClInclude Include="mat.h" />
+    <ClInclude Include="Tu_Bep.h" />
     <ClInclude Include="vec.h" />
     <ClInclude Include="Lap_phuong.h" />
     <ClInclude Include="Camera.h" />

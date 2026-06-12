@@ -8,7 +8,12 @@
 #include "Ban_an.h"
 #include "Ghe.h"
 #include "Tivi.h"
+//<<<<<<< HEAD
 #include "Dia.h"
+//=======
+#include "Tu_Bep.h"
+
+//>>>>>>> 54db021f6e709c9205a8910151f9cfa6b83c5c0d
 typedef vec4 point4;
 typedef vec4 color4;
 
@@ -102,7 +107,13 @@ void display(void)
 	mat4 modelDK = modelVeTV * Translate(-0.5f, 0.2f, 0.3f / 2.0f - 0.1f);
 	veDieuKhien(program, model_loc, modelDK);
 
-	
+//<<<<<<< HEAD
+//	
+//=======
+	mat4 tuBep =model *Translate(0.5f, 1.48f, 0.0f) * Scale(1.0f, 0.8f, 1.0f);
+	drawTuBepModel(program,model_loc,tuBep);
+
+//>>>>>>> 54db021f6e709c9205a8910151f9cfa6b83c5c0d
 	glutSwapBuffers();
 }
 
@@ -120,10 +131,16 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	//Đóng mở tủ lạnh
 	case 'e':
-		moCuaTuLanh();
+		moCuaTraiTuLanh();
 		break;
 	case 'E':
-		dongCuaTuLanh();
+		dongCuaTraiTuLanh();
+		break;
+	case 'r':
+		moCuaPhaiTuLanh();
+		break;
+	case 'R':
+		dongCuaPhaiTuLanh();
 		break;
 	//đóng mở cửa sổ
 	case 'c':
@@ -131,7 +148,6 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 'C':
 		dongCuaSo();
-		
 		break;
 	case 'm':
 		if (keo_ghe_1 < 0.5f) {
@@ -182,6 +198,42 @@ void keyboard(unsigned char key, int x, int y)
 	case 'T':
 		isTvOn = !isTvOn;
 		break;
+	case 'h':
+		moTuPhuPhai();
+		glutPostRedisplay();
+		break;
+	case 'H':
+		dongTuPhuPhai();
+		glutPostRedisplay();
+		break;
+	case 'g':
+		moTuPhuTrai();
+		glutPostRedisplay();
+		break;
+	case 'G':
+		dongTuPhuTrai();
+		glutPostRedisplay();
+		break;
+	case '1':
+		keoNganTu1();
+		glutPostRedisplay();
+		break;
+	case '2':
+		dongNganTu1();
+		glutPostRedisplay();
+		break;
+	case '3':
+		keoNganTu2();
+		glutPostRedisplay();
+		break;
+	case '4':
+		dongNganTu2();
+		glutPostRedisplay();
+		break;
+	case 'b':
+		batTatBepGa();
+		glutPostRedisplay();
+		break;
 	default:
 		if (keyboardCamera(key)) {
 			
@@ -213,6 +265,27 @@ int main(int argc, char **argv)
 	glutInitWindowSize(800, 800);
 	glutInitWindowPosition(100, 150);
 	glutCreateWindow("Tuong phong");
+	std::cout << "\n========== PHIM DIEU KHIEN ==========\n"
+		<< "ESC       : Thoat chuong trinh\n"
+		<< "W / S     : Camera tien / lui\n"
+		<< "A         : Camera sang trai\n"
+		<< "D         : Camera sang phai\n"
+		<< "e / E     : Mo / dong cua trai tu lanh\n"
+		<< "r / R     : Mo / dong cua phai tu lanh\n"
+		<< "c / C     : Mo / dong cua so\n"
+		<< "k / d     : Keo / day nhom ghe chinh\n"
+		<< "m / M     : Keo / day nhom ghe 1\n"
+		<< "n / N     : Keo / day nhom ghe 2\n"
+		<< "p / P     : Keo / day nhom ghe 3\n"
+		<< "q / Q     : Keo / day nhom ghe 4\n"
+		<< "t / T     : Bat / tat TV\n"
+		<< "h / H     : Mo / dong tu phu phai\n"
+		<< "g / G     : Mo / dong tu phu trai\n"
+		<< "1 / 2     : Keo / dong ngan tu 1\n"
+		<< "3 / 4     : Keo / dong ngan tu 2\n"
+		<< "b         : Bat / tat bep ga\n"
+		<< "Chuot trai: Xoay camera\n"
+		<< "====================================\n\n";
 
 	glewInit();
 

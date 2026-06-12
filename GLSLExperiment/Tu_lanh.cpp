@@ -2,7 +2,8 @@
 #include "Lap_phuong.h"
 
 typedef vec4 color4;
-static bool cua_tu_lanh_dang_mo = false;
+static float goc_mo_cua_trai = 0.0f;
+static float goc_mo_cua_phai = 0.0f;
 
 static void setMaterial(GLuint program, const color4& material_color)
 {
@@ -25,6 +26,7 @@ static void drawBlock(GLuint program, GLuint model_loc, const mat4& model, const
 	glUniformMatrix4fv(model_loc, 1, GL_TRUE, model * instance);
 	drawLapPhuong();
 }
+
 
 void drawThanTuLanh(GLuint program, GLuint model_loc, const mat4& model)
 {
@@ -77,11 +79,6 @@ void drawThanTuLanh(GLuint program, GLuint model_loc, const mat4& model)
 	mat4 instance10 = Translate(0.384f, -0.2525f, 0.9f)
 		* Scale(0.03f, 0.02f, 1.665f);
 	drawBlock(program, model_loc, model, instance10, color4(0.015f, 0.014f, 0.013f, 1.0f));
-
-	// Viền trước thân - giữa
-	mat4 instance11 = Translate(0.0f, -0.2525f, 0.9f)
-		* Scale(0.024f, 0.02f, 1.665f);
-	drawBlock(program, model_loc, model, instance11, color4(0.015f, 0.014f, 0.013f, 1.0f));
 
 	// Lòng trắng khoang đông - lưng
 	mat4 instance12 = Translate(-0.1885f, 0.312f, 0.905f)
@@ -321,31 +318,6 @@ void drawCuaTraiTuLanh(GLuint program, GLuint model_loc, const mat4& model)
 		* Scale(0.383f, 0.095f, 1.69f);
 	drawBlock(program, model_loc, model, instance82, color4(0.88f, 0.90f, 0.92f, 1.0f));
 
-	// Viền ngoài cửa trái - trên
-	mat4 instance83 = Translate(-0.1975f, -0.3545f, 1.739f)
-		* Scale(0.383f, 0.006f, 0.012f);
-	drawBlock(program, model_loc, model, instance83, color4(0.005f, 0.005f, 0.005f, 1.0f));
-
-	// Viền ngoài cửa trái - dưới
-	mat4 instance84 = Translate(-0.1975f, -0.3545f, 0.061f)
-		* Scale(0.383f, 0.006f, 0.012f);
-	drawBlock(program, model_loc, model, instance84, color4(0.005f, 0.005f, 0.005f, 1.0f));
-
-	// Viền ngoài cửa trái - mép ngoài
-	mat4 instance85 = Translate(-0.384f, -0.3545f, 0.9f)
-		* Scale(0.01f, 0.006f, 1.69f);
-	drawBlock(program, model_loc, model, instance85, color4(0.005f, 0.005f, 0.005f, 1.0f));
-
-	// Viền ngoài cửa trái - mép giữa
-	mat4 instance86 = Translate(-0.01f, -0.3545f, 0.9f)
-		* Scale(0.008f, 0.006f, 1.69f);
-	drawBlock(program, model_loc, model, instance86, color4(0.005f, 0.005f, 0.005f, 1.0f));
-
-	// Tay nắm âm cửa trái
-	mat4 instance87 = Translate(-0.02f, -0.3545f, 0.9f)
-		* Scale(0.014f, 0.006f, 1.5f);
-	drawBlock(program, model_loc, model, instance87, color4(0.005f, 0.005f, 0.005f, 1.0f));
-
 
 
 	// Mặt lưng trong cửa trái
@@ -390,31 +362,6 @@ void drawCuaPhaiTuLanh(GLuint program, GLuint model_loc, const mat4& model)
 	mat4 instance101 = Translate(0.1975f, -0.31f, 0.9f)
 		* Scale(0.383f, 0.095f, 1.69f);
 	drawBlock(program, model_loc, model, instance101, color4(0.88f, 0.90f, 0.92f, 1.0f));
-
-	// Viền ngoài cửa phải - trên
-	mat4 instance102 = Translate(0.1975f, -0.3545f, 1.739f)
-		* Scale(0.383f, 0.006f, 0.012f);
-	drawBlock(program, model_loc, model, instance102, color4(0.005f, 0.005f, 0.005f, 1.0f));
-
-	// Viền ngoài cửa phải - dưới
-	mat4 instance103 = Translate(0.1975f, -0.3545f, 0.061f)
-		* Scale(0.383f, 0.006f, 0.012f);
-	drawBlock(program, model_loc, model, instance103, color4(0.005f, 0.005f, 0.005f, 1.0f));
-
-	// Viền ngoài cửa phải - mép ngoài
-	mat4 instance104 = Translate(0.384f, -0.3545f, 0.9f)
-		* Scale(0.01f, 0.006f, 1.69f);
-	drawBlock(program, model_loc, model, instance104, color4(0.005f, 0.005f, 0.005f, 1.0f));
-
-	// Viền ngoài cửa phải - mép giữa
-	mat4 instance105 = Translate(0.01f, -0.3545f, 0.9f)
-		* Scale(0.008f, 0.006f, 1.69f);
-	drawBlock(program, model_loc, model, instance105, color4(0.005f, 0.005f, 0.005f, 1.0f));
-
-	// Tay nắm âm cửa phải
-	mat4 instance106 = Translate(0.02f, -0.3545f, 0.9f)
-		* Scale(0.014f, 0.006f, 1.5f);
-	drawBlock(program, model_loc, model, instance106, color4(0.005f, 0.005f, 0.005f, 1.0f));
 
 	// Mặt lưng trong cửa phải
 	mat4 instance107 = Translate(0.1975f, -0.2595f, 0.9f)
@@ -469,14 +416,34 @@ void drawCuaPhaiTuLanh(GLuint program, GLuint model_loc, const mat4& model)
 
 }
 
-void moCuaTuLanh(void) { cua_tu_lanh_dang_mo = true; }
-void dongCuaTuLanh(void) { cua_tu_lanh_dang_mo = false; }
+void moCuaTraiTuLanh()
+{
+	if (goc_mo_cua_trai < 90.0f)
+		goc_mo_cua_trai += 5.0f;
+}
+
+void dongCuaTraiTuLanh()
+{
+	if (goc_mo_cua_trai > 0.0f)
+		goc_mo_cua_trai -= 5.0f;
+}
+
+void moCuaPhaiTuLanh()
+{
+	if (goc_mo_cua_phai < 90.0f)
+		goc_mo_cua_phai += 5.0f;
+}
+
+void dongCuaPhaiTuLanh()
+{
+	if (goc_mo_cua_phai > 0.0f)
+		goc_mo_cua_phai -= 5.0f;
+}
 
 void drawTuLanh(GLuint program, GLuint model_loc, const mat4& model)
 {
-	GLfloat goc_mo = cua_tu_lanh_dang_mo ? 95.0f : 0.0f;
-	mat4 modelCuaTrai = model * Translate(-0.399f, -0.2625f, 0.0f) * RotateZ(-goc_mo) * Translate(0.399f, 0.2625f, 0.0f);
-	mat4 modelCuaPhai = model * Translate(0.399f, -0.2625f, 0.0f) * RotateZ(goc_mo) * Translate(-0.399f, 0.2625f, 0.0f);
+	mat4 modelCuaTrai = model * Translate(-0.399f, -0.2625f, 0.0f) * RotateZ(-goc_mo_cua_trai) * Translate(0.399f, 0.2625f, 0.0f);
+	mat4 modelCuaPhai = model * Translate(0.399f, -0.2625f, 0.0f) * RotateZ(goc_mo_cua_phai) * Translate(-0.399f, 0.2625f, 0.0f);
 	drawThanTuLanh(program, model_loc, model);
 	drawCuaTraiTuLanh(program, model_loc, modelCuaTrai);
 	drawCuaPhaiTuLanh(program, model_loc, modelCuaPhai);
