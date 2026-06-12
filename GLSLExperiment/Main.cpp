@@ -8,12 +8,9 @@
 #include "Ban_an.h"
 #include "Ghe.h"
 #include "Tivi.h"
-//<<<<<<< HEAD
 #include "Dia.h"
-//=======
 #include "Tu_Bep.h"
 
-//>>>>>>> 54db021f6e709c9205a8910151f9cfa6b83c5c0d
 typedef vec4 point4;
 typedef vec4 color4;
 
@@ -107,13 +104,9 @@ void display(void)
 	mat4 modelDK = modelVeTV * Translate(-0.5f, 0.2f, 0.3f / 2.0f - 0.1f);
 	veDieuKhien(program, model_loc, modelDK);
 
-//<<<<<<< HEAD
-//	
-//=======
 	mat4 tuBep =model *Translate(0.5f, 1.48f, 0.0f) * Scale(1.0f, 0.8f, 1.0f);
 	drawTuBepModel(program,model_loc,tuBep);
 
-//>>>>>>> 54db021f6e709c9205a8910151f9cfa6b83c5c0d
 	glutSwapBuffers();
 }
 
