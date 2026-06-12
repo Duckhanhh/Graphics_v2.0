@@ -33,7 +33,7 @@ void tuongBenPhai(GLuint program, GLuint model_loc, const mat4& model)
 	// Kich thuoc: 0.2 x 4.4 x 3.4  |  Tam: (-2.6, 0.0, 1.7)
 	mat4 instance = Translate(-2.6f, 0.0f, 1.7f)
 		* Scale(0.2f, 4.4f, 3.4f);
-	drawBlock(program, model_loc, model, instance, color4(170 / 255.0f, 90 / 255.0f, 80 / 255.0f, 1.0f));
+	drawBlock(program, model_loc, model, instance, color4(155 / 255.0f, 158 / 255.0f, 155 / 255.0f, 1.0f));
 }
 
 void tuongBenTrai(GLuint program, GLuint model_loc, const mat4& model)
@@ -41,7 +41,7 @@ void tuongBenTrai(GLuint program, GLuint model_loc, const mat4& model)
 	// Kich thuoc: 0.2 x 4.4 x 3.4  |  Tam: (2.6, 0.0, 1.7)
 	mat4 instance = Translate(2.6f, 0.0f, 1.7f)
 		* Scale(0.2f, 4.4f, 3.4f);
-	drawBlock(program, model_loc, model, instance, color4(170 / 255.0f, 90 / 255.0f, 80 / 255.0f, 1.0f));
+	drawBlock(program, model_loc, model, instance, color4(155 / 255.0f, 158 / 255.0f, 155 / 255.0f, 1.0f));
 }
 
 void sanNha(GLuint program, GLuint model_loc, const mat4& model)
@@ -49,7 +49,7 @@ void sanNha(GLuint program, GLuint model_loc, const mat4& model)
 	// Kich thuoc: 5.4 x 4.4 x 0.2  |  Tam: (0.0, 0.0, -0.1)
 	mat4 instance = Translate(0.0f, 0.0f, -0.1f)
 		* Scale(5.4f, 4.4f, 0.2f);
-	drawBlock(program, model_loc, model, instance, color4(120 / 255.0f, 85 / 255.0f, 60 / 255.0f, 1.0f));
+	drawBlock(program, model_loc, model, instance, color4(155 / 255.0f, 158 / 255.0f, 155 / 255.0f, 1.0f));
 }
 
 void tranNha(GLuint program, GLuint model_loc, const mat4& model)
@@ -57,7 +57,7 @@ void tranNha(GLuint program, GLuint model_loc, const mat4& model)
 	// Kich thuoc: 5.0 x 4.0 x 0.2  |  Tam: (0.0, 0.0, 3.3)
 	mat4 instance = Translate(0.0f, 0.0f, 3.3f)
 		* Scale(5.0f, 4.0f, 0.2f);
-	drawBlock(program, model_loc, model, instance, color4(190 / 255.0f, 170 / 255.0f, 145 / 255.0f, 1.0f));
+	drawBlock(program, model_loc, model, instance, color4(155 / 255.0f, 158 / 255.0f, 155 / 255.0f, 1.0f));
 }
 
 void tuongCuaVaoBenTrai(GLuint program, GLuint model_loc, const mat4& model)
@@ -65,7 +65,7 @@ void tuongCuaVaoBenTrai(GLuint program, GLuint model_loc, const mat4& model)
 	// Kich thuoc: 3.5 x 0.2 x 3.4  |  Tam: (-0.75, -2.1, 1.7)
 	mat4 instance = Translate(-0.75f, -2.1f, 1.7f)
 		* Scale(3.5f, 0.2f, 3.4f);
-	drawBlock(program, model_loc, model, instance, color4(190 / 255.0f, 170 / 255.0f, 145 / 255.0f, 1.0f));
+	drawBlock(program, model_loc, model, instance, color4(155 / 255.0f, 158 / 255.0f, 155 / 255.0f, 1.0f));
 }
 
 void tuongCuaVaoBenTren(GLuint program, GLuint model_loc, const mat4& model)
@@ -73,7 +73,7 @@ void tuongCuaVaoBenTren(GLuint program, GLuint model_loc, const mat4& model)
 	// Kich thuoc: 1.0 x 0.2 x 1.0  |  Tam: (1.5, -2.1, 2.9)
 	mat4 instance = Translate(1.5f, -2.1f, 2.9f)
 		* Scale(1.0f, 0.2f, 1.0f);
-	drawBlock(program, model_loc, model, instance, color4(190 / 255.0f, 170 / 255.0f, 145 / 255.0f, 1.0f));
+	drawBlock(program, model_loc, model, instance, color4(155 / 255.0f, 158 / 255.0f, 155 / 255.0f, 1.0f));
 }
 
 void tuongCuaVaoBenPhai(GLuint program, GLuint model_loc, const mat4& model)
@@ -81,7 +81,7 @@ void tuongCuaVaoBenPhai(GLuint program, GLuint model_loc, const mat4& model)
 	// Kich thuoc: 0.5 x 0.2 x 3.4  |  Tam: (2.25, -2.1, 1.7)
 	mat4 instance = Translate(2.25f, -2.1f, 1.7f)
 		* Scale(0.5f, 0.2f, 3.4f);
-	drawBlock(program, model_loc, model, instance, color4(190 / 255.0f, 170 / 255.0f, 145 / 255.0f, 1.0f));
+	drawBlock(program, model_loc, model, instance, color4(155 / 255.0f, 158 / 255.0f, 155 / 255.0f, 1.0f));
 }
 
 void tuongCuaSoBenTrai(GLuint program, GLuint model_loc, const mat4& model)
@@ -89,7 +89,7 @@ void tuongCuaSoBenTrai(GLuint program, GLuint model_loc, const mat4& model)
 	// Kich thuoc: 1.8 x 0.2 x 3.4  |  Tam: (-1.6, 2.1, 1.7)
 	mat4 instance = Translate(-1.6f, 2.1f, 1.7f)
 		* Scale(1.8f, 0.2f, 3.4f);
-	drawBlock(program, model_loc, model, instance, color4(145 / 255.0f, 158 / 255.0f, 135 / 255.0f, 1.0f));
+	drawBlock(program, model_loc, model, instance, color4(155 / 255.0f, 158 / 255.0f, 155 / 255.0f, 1.0f));
 }
 
 void tuongCuaSoBenDuoi(GLuint program, GLuint model_loc, const mat4& model)
@@ -97,7 +97,7 @@ void tuongCuaSoBenDuoi(GLuint program, GLuint model_loc, const mat4& model)
 	// Kich thuoc: 1.4 x 0.2 x 1.0  |  Tam: (0.0, 2.1, 0.5)
 	mat4 instance = Translate(0.0f, 2.1f, 0.5f)
 		* Scale(1.4f, 0.2f, 1.0f);
-	drawBlock(program, model_loc, model, instance, color4(145 / 255.0f, 158 / 255.0f, 135 / 255.0f, 1.0f));
+	drawBlock(program, model_loc, model, instance, color4(155 / 255.0f, 158 / 255.0f, 155 / 255.0f, 1.0f));
 }
 
 void tuongCuaSoBenTren(GLuint program, GLuint model_loc, const mat4& model)
@@ -105,7 +105,7 @@ void tuongCuaSoBenTren(GLuint program, GLuint model_loc, const mat4& model)
 	// Kich thuoc: 1.4 x 0.2 x 1.0  |  Tam: (0.0, 2.1, 2.9)
 	mat4 instance = Translate(0.0f, 2.1f, 2.9f)
 		* Scale(1.4f, 0.2f, 1.0f);
-	drawBlock(program, model_loc, model, instance, color4(145 / 255.0f, 158 / 255.0f, 135 / 255.0f, 1.0f));
+	drawBlock(program, model_loc, model, instance, color4(155 / 255.0f, 158 / 255.0f, 155 / 255.0f, 1.0f));
 }
 
 void tuongCuaSoBenPhai(GLuint program, GLuint model_loc, const mat4& model)
@@ -113,7 +113,7 @@ void tuongCuaSoBenPhai(GLuint program, GLuint model_loc, const mat4& model)
 	// Kich thuoc: 1.8 x 0.2 x 3.4  |  Tam: (1.6, 2.1, 1.7)
 	mat4 instance = Translate(1.6f, 2.1f, 1.7f)
 		* Scale(1.8f, 0.2f, 3.4f);
-	drawBlock(program, model_loc, model, instance, color4(145 / 255.0f, 158 / 255.0f, 135 / 255.0f, 1.0f));
+	drawBlock(program, model_loc, model, instance, color4(155 / 255.0f, 158 / 255.0f, 155 / 255.0f, 1.0f));
 }
 void drawTuongPhong(GLuint program, GLuint model_loc, const mat4& model)
 {

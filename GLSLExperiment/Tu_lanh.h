@@ -3,8 +3,10 @@
 
 #include "Angel.h"
 
-void moCuaTuLanh(void);
-void dongCuaTuLanh(void);
+void moCuaTraiTuLanh();
+void dongCuaTraiTuLanh();
+void moCuaPhaiTuLanh();
+void dongCuaPhaiTuLanh();
 void drawTuLanh(GLuint program, GLuint model_loc, const mat4& model);
 
 #endif

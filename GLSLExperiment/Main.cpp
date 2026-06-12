@@ -120,10 +120,16 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	//Đóng mở tủ lạnh
 	case 'e':
-		moCuaTuLanh();
+		moCuaTraiTuLanh();
 		break;
 	case 'E':
-		dongCuaTuLanh();
+		dongCuaTraiTuLanh();
+		break;
+	case 'r':
+		moCuaPhaiTuLanh();
+		break;
+	case 'R':
+		dongCuaPhaiTuLanh();
 		break;
 	//đóng mở cửa sổ
 	case 'c':
@@ -263,6 +269,27 @@ int main(int argc, char **argv)
 	glutInitWindowSize(800, 800);
 	glutInitWindowPosition(100, 150);
 	glutCreateWindow("Tuong phong");
+	std::cout << "\n========== PHIM DIEU KHIEN ==========\n"
+		<< "ESC       : Thoat chuong trinh\n"
+		<< "W / S     : Camera tien / lui\n"
+		<< "A         : Camera sang trai\n"
+		<< "D         : Camera sang phai\n"
+		<< "e / E     : Mo / dong cua trai tu lanh\n"
+		<< "r / R     : Mo / dong cua phai tu lanh\n"
+		<< "c / C     : Mo / dong cua so\n"
+		<< "k / d     : Keo / day nhom ghe chinh\n"
+		<< "m / M     : Keo / day nhom ghe 1\n"
+		<< "n / N     : Keo / day nhom ghe 2\n"
+		<< "p / P     : Keo / day nhom ghe 3\n"
+		<< "q / Q     : Keo / day nhom ghe 4\n"
+		<< "t / T     : Bat / tat TV\n"
+		<< "h / H     : Mo / dong tu phu phai\n"
+		<< "g / G     : Mo / dong tu phu trai\n"
+		<< "1 / 2     : Keo / dong ngan tu 1\n"
+		<< "3 / 4     : Keo / dong ngan tu 2\n"
+		<< "b         : Bat / tat bep ga\n"
+		<< "Chuot trai: Xoay camera\n"
+		<< "====================================\n\n";
 
 	glewInit();
 
