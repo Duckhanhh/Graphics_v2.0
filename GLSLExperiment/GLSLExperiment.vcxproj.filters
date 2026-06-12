@@ -48,11 +48,10 @@
     <ClCompile Include="Tivi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Dia.cpp">
-=======
+	<Filter>Source Files</Filter>
+	</ClCompile>
     <ClCompile Include="Tu_Bep.cpp">
->>>>>>> 54db021f6e709c9205a8910151f9cfa6b83c5c0d
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,11 +95,10 @@
     <ClInclude Include="Tivi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Dia.h">
-=======
+	<Filter>Header Files</Filter>
+	</ClInclude>
     <ClInclude Include="Tu_Bep.h">
->>>>>>> 54db021f6e709c9205a8910151f9cfa6b83c5c0d
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
