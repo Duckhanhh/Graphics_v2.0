@@ -303,16 +303,9 @@ void keyboard(unsigned char key, int x, int y)
 	glutPostRedisplay();
 }
 
-void mouse(int button, int state, int x, int y)
+void specialKeyboard(int key, int x, int y)
 {
-	if (mouseCamera(button, state, x, y)) {
-		glutPostRedisplay();
-	}
-}
-
-void motion(int x, int y)
-{
-	if (motionCamera(x, y)) {
+	if (specialCamera(key)) {
 		glutPostRedisplay();
 	}
 }
@@ -329,6 +322,8 @@ int main(int argc, char **argv)
 		<< "W / S     : Camera tien / lui\n"
 		<< "A         : Camera sang trai\n"
 		<< "D         : Camera sang phai\n"
+		<< "< / >     : Xoay camera trai / phai\n"
+		<< "Mui ten   : Ngua / cui camera\n"
 		<< "e / E     : Mo / dong cua trai tu lanh\n"
 		<< "r / R     : Mo / dong cua phai tu lanh\n"
 		<< "c / C     : Mo / dong cua so\n"
@@ -343,6 +338,7 @@ int main(int argc, char **argv)
 		<< "1 / 2     : Keo / dong ngan tu 1\n"
 		<< "3 / 4     : Keo / dong ngan tu 2\n"
 		<< "b         : Bat / tat bep ga\n"
+		<< "[ / ]     : Zoom out / in camera\n"
 		<< "y / Y     : Mo / dong canh trai tu 1\n"
 		<< "j / J     : Mo / dong canh phai tu 1\n"
 		<< "u / U     : Mo / dong canh tu 2\n"
@@ -360,8 +356,7 @@ int main(int argc, char **argv)
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
-	glutMouseFunc(mouse);
-	glutMotionFunc(motion);
+	glutSpecialFunc(specialKeyboard);
 
 	glutMainLoop();
 	return 0;
