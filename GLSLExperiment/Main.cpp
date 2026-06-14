@@ -11,6 +11,7 @@
 #include "Dia.h"
 #include "Tu_Bep.h"
 #include "Den.h"
+#include "Tu_bat.h"
 
 typedef vec4 point4;
 typedef vec4 color4;
@@ -109,6 +110,9 @@ void display(void)
 
 	mat4 tuBep =model *Translate(0.5f, 1.48f, 0.0f) * Scale(1.0f, 0.8f, 1.0f);
 	drawTuBepModel(program,model_loc,tuBep);
+
+	mat4 tuBat = model * Translate(2.1f, 0.5f, 2.0f) * Scale(1.0f, 0.8f, 1.0f);;
+	drawTuBatModel(program, model_loc, tuBat);
 
 	veBongDen(program, model_loc, model);
 
@@ -232,6 +236,49 @@ void keyboard(unsigned char key, int x, int y)
 		batTatBepGa();
 		glutPostRedisplay();
 		break;
+		// Cánh trái tủ 1
+	case 'y':
+		moCanhTraiTu1();
+		break;
+	case 'Y':
+		dongCanhTraiTu1();
+		break;
+		// Cánh phải tủ 1
+	case 'j':
+		moCanhPhaiTu1();
+		break;
+	case 'J':
+		dongCanhPhaiTu1();
+		break;
+		// Mở / đóng cánh tủ 2
+	case 'u':
+		moCanhTu2();
+		glutPostRedisplay();
+		break;
+	case 'U':
+		dongCanhTu2();
+		glutPostRedisplay();
+		break;
+		// Máy hút mùi
+       // Bật/tắt nguồn
+	case 'i':
+	case 'I':
+		batTatMayHutMui();
+		break;
+		// Tăng/giảm tốc quạt
+	case 'o':
+	case 'O':
+		if (tocDoQuat < 3)
+			tocDoQuat++;
+		else
+			tocDoQuat = 0;
+		break;
+		// Bật/tắt đèn máy hút mùi
+	case 'x':
+	case 'X':
+		batTatDenHutMui();
+		break;
+
 		// Bật / Tắt bóng đèn
 	case 'l': case 'L':
 		isLightOn = !isLightOn;
@@ -296,6 +343,13 @@ int main(int argc, char **argv)
 		<< "1 / 2     : Keo / dong ngan tu 1\n"
 		<< "3 / 4     : Keo / dong ngan tu 2\n"
 		<< "b         : Bat / tat bep ga\n"
+		<< "y / Y     : Mo / dong canh trai tu 1\n"
+		<< "j / J     : Mo / dong canh phai tu 1\n"
+		<< "u / U     : Mo / dong canh tu 2\n"
+		<< "i / I     : Bat / tat may hut mui\n"
+		<< "o         : Tang toc do quat hut mui\n"
+		<< "O         : Giam toc do quat hut mui\n"
+		<< "x / X     : Bat / tat den may hut mui\n"
 		<< "Chuot trai: Xoay camera\n"
 		<< "====================================\n\n";
 
