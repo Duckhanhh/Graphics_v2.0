@@ -347,8 +347,8 @@ int main(int argc, char **argv)
 		<< "j / J     : Mo / dong canh phai tu 1\n"
 		<< "u / U     : Mo / dong canh tu 2\n"
 		<< "i / I     : Bat / tat may hut mui\n"
-		<< "o         : Tang toc do quat hut mui\n"
-		<< "O         : Giam toc do quat hut mui\n"
+		<< "o         : Tang toc do quat hut mui 1-3\n"
+		<< "O         : Giam toc do quat hut mui 3-1\n"
 		<< "x / X     : Bat / tat den may hut mui\n"
 		<< "Chuot trai: Xoay camera\n"
 		<< "====================================\n\n";
