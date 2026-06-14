@@ -96,6 +96,7 @@ bool keyboardCamera(unsigned char key)
 {
 	vec3 front;
 	vec3 right;
+	bool projection_changed = false;
 	getCameraFront(front);
 	getCameraRight(right);
 
@@ -136,11 +137,31 @@ bool keyboardCamera(unsigned char key)
 	case '>':
 		yaw += rotate_step;
 		break;
+	case '[':
+		zoom_size *= 1.1f;
+		projection_changed = true;
+		break;
+	case ']':
+		zoom_size *= 0.9f;
+		projection_changed = true;
+		break;
 	default:
 		return false;
 	}
 
+	if (projection_changed) {
+		if (zoom_size < 0.2f) {
+			zoom_size = 0.2f;
+		}
+		if (zoom_size > 5.0f) {
+			zoom_size = 5.0f;
+		}
+	}
+
 	updateView();
+	if (projection_changed) {
+		updateProjection();
+	}
 	return true;
 }
 
@@ -167,37 +188,4 @@ bool specialCamera(int key)
 
 	updateView();
 	return true;
-}
-
-bool mouseCamera(int button, int state, int x, int y)
-{
-	if (state != GLUT_DOWN) {
-		return false;
-	}
-
-	switch (button) {
-	case 3:
-		zoom_size *= 0.9f;
-		break;
-	case 4:
-		zoom_size *= 1.1f;
-		break;
-	default:
-		return false;
-	}
-
-	if (zoom_size < 0.2f) {
-		zoom_size = 0.2f;
-	}
-	if (zoom_size > 5.0f) {
-		zoom_size = 5.0f;
-	}
-
-	updateProjection();
-	return true;
-}
-
-bool motionCamera(int x, int y)
-{
-	return false;
 }

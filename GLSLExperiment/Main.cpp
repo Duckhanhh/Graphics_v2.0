@@ -256,20 +256,6 @@ void keyboard(unsigned char key, int x, int y)
 	glutPostRedisplay();
 }
 
-void mouse(int button, int state, int x, int y)
-{
-	if (mouseCamera(button, state, x, y)) {
-		glutPostRedisplay();
-	}
-}
-
-void motion(int x, int y)
-{
-	if (motionCamera(x, y)) {
-		glutPostRedisplay();
-	}
-}
-
 void specialKeyboard(int key, int x, int y)
 {
 	if (specialCamera(key)) {
@@ -289,8 +275,8 @@ int main(int argc, char **argv)
 		<< "W / S     : Camera tien / lui\n"
 		<< "A         : Camera sang trai\n"
 		<< "D         : Camera sang phai\n"
-		<< "Mui ten   : Xoay camera\n"
 		<< "< / >     : Xoay camera trai / phai\n"
+		<< "Mui ten   : Ngua / cui camera\n"
 		<< "e / E     : Mo / dong cua trai tu lanh\n"
 		<< "r / R     : Mo / dong cua phai tu lanh\n"
 		<< "c / C     : Mo / dong cua so\n"
@@ -305,7 +291,7 @@ int main(int argc, char **argv)
 		<< "1 / 2     : Keo / dong ngan tu 1\n"
 		<< "3 / 4     : Keo / dong ngan tu 2\n"
 		<< "b         : Bat / tat bep ga\n"
-		<< "Lan chuot : Zoom camera\n"
+		<< "[ / ]     : Zoom out / in camera\n"
 		<< "====================================\n\n";
 
 	glewInit();
@@ -316,8 +302,6 @@ int main(int argc, char **argv)
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
 	glutSpecialFunc(specialKeyboard);
-	glutMouseFunc(mouse);
-	glutMotionFunc(motion);
 
 	glutMainLoop();
 	return 0;
