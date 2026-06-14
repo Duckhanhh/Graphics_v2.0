@@ -14,9 +14,17 @@ static GLfloat zoom_size = 1.0f;
 static GLfloat aspect = 1.0f;
 static GLfloat yaw = 90.0f;
 static GLfloat pitch = -5.0f;
-static bool left_mouse_down = false;
-static int last_mouse_x = 0;
-static int last_mouse_y = 0;
+static GLfloat rotate_step = 3.0f;
+
+static void clampPitch()
+{
+	if (pitch > 85.0f) {
+		pitch = 85.0f;
+	}
+	if (pitch < -85.0f) {
+		pitch = -85.0f;
+	}
+}
 
 static GLfloat toRadians(GLfloat degrees)
 {
@@ -122,6 +130,37 @@ bool keyboardCamera(unsigned char key)
 	case 'Q':
 		camera_z += camera_step;
 		break;
+	case '<':
+		yaw -= rotate_step;
+		break;
+	case '>':
+		yaw += rotate_step;
+		break;
+	default:
+		return false;
+	}
+
+	updateView();
+	return true;
+}
+
+bool specialCamera(int key)
+{
+	switch (key) {
+	case GLUT_KEY_LEFT:
+		yaw -= rotate_step;
+		break;
+	case GLUT_KEY_RIGHT:
+		yaw += rotate_step;
+		break;
+	case GLUT_KEY_UP:
+		pitch += rotate_step;
+		clampPitch();
+		break;
+	case GLUT_KEY_DOWN:
+		pitch -= rotate_step;
+		clampPitch();
+		break;
 	default:
 		return false;
 	}
@@ -132,13 +171,6 @@ bool keyboardCamera(unsigned char key)
 
 bool mouseCamera(int button, int state, int x, int y)
 {
-	if (button == GLUT_LEFT_BUTTON) {
-		left_mouse_down = (state == GLUT_DOWN);
-		last_mouse_x = x;
-		last_mouse_y = y;
-		return false;
-	}
-
 	if (state != GLUT_DOWN) {
 		return false;
 	}
@@ -167,23 +199,5 @@ bool mouseCamera(int button, int state, int x, int y)
 
 bool motionCamera(int x, int y)
 {
-	if (!left_mouse_down) {
-		return false;
-	}
-
-	GLfloat rotate_step = 0.2f;
-	yaw += (x - last_mouse_x) * rotate_step;
-	pitch -= (y - last_mouse_y) * rotate_step;
-
-	if (pitch > 85.0f) {
-		pitch = 85.0f;
-	}
-	if (pitch < -85.0f) {
-		pitch = -85.0f;
-	}
-
-	last_mouse_x = x;
-	last_mouse_y = y;
-	updateView();
-	return true;
+	return false;
 }
