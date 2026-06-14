@@ -49,9 +49,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Dia.cpp">
-	<Filter>Source Files</Filter>
-	</ClCompile>
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Tu_Bep.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Den.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tu_bat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,9 +102,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Dia.h">
-	<Filter>Header Files</Filter>
-	</ClInclude>
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Tu_Bep.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Den.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tu_bat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
