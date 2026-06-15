@@ -33,14 +33,13 @@ static GLfloat toRadians(GLfloat degrees)
 
 static void getCameraFront(vec3& front)
 {
-	GLfloat yaw_r = toRadians(yaw);
-	GLfloat pitch_r = toRadians(pitch);
+	mat4 yaw_matrix = RotateZ(yaw);
+	mat4 pitch_matrix = RotateY(-pitch);
+	mat4 rotation_matrix = yaw_matrix * pitch_matrix;
+	vec4 forward_direction(1.0f, 0.0f, 0.0f, 0.0f);
+	vec4 rotated_front = rotation_matrix * forward_direction;
 
-	front.x = cos(pitch_r) * cos(yaw_r);
-	front.y = cos(pitch_r) * sin(yaw_r);
-	front.z = sin(pitch_r);
-
-	front = normalize(front);
+	front = normalize(vec3(rotated_front.x, rotated_front.y, rotated_front.z));
 }
 
 static void getCameraRight(vec3& right)
