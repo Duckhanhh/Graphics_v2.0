@@ -168,10 +168,10 @@ bool keyboardCamera(unsigned char key)
 bool specialCamera(int key)
 {
 	switch (key) {
-	case GLUT_KEY_LEFT:
+	case GLUT_KEY_RIGHT:
 		yaw -= rotate_step;
 		break;
-	case GLUT_KEY_RIGHT:
+	case GLUT_KEY_LEFT :
 		yaw += rotate_step;
 		break;
 	case GLUT_KEY_UP:
