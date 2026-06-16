@@ -254,34 +254,15 @@ void drawMayHutMuiChuan(GLuint program, GLuint model_loc, const mat4& model)
     drawBlock(program, model_loc, khung4, mat4(), mauKhung);
 
     // Quạt
-
-    // Cánh 1
-    mat4 quat1 = model
-        * Translate(-0.08f, 0.40f, -0.25f)
-        * Translate(0.10f, 0, 0)
-        * Scale(0.16f, 0.025f, 0.015f);
-    drawBlock(program, model_loc, quat1, mat4(), mauQuat);
-
-    // Cánh 2
-    mat4 quat2 = model
-        * Translate(-0.08f, 0.40f, -0.25f)
-        * Translate(0.10f, 0, 0)
-        * Scale(0.16f, 0.025f, 0.015f);
-    drawBlock(program, model_loc, quat2, mat4(), mauQuat);
-
-    // Cánh 3
-    mat4 quat3 = model
-        * Translate(-0.08f, 0.40f, -0.25f)
-        * Translate(0.10f, 0, 0)
-        * Scale(0.16f, 0.025f, 0.015f);
-    drawBlock(program, model_loc, quat3, mat4(), mauQuat);
-
-    // Cánh 4
-    mat4 quat4 = model
-        * Translate(-0.08f, 0.40f, -0.25f)
-        * Translate(0.10f, 0, 0)
-        * Scale(0.16f, 0.025f, 0.015f);
-    drawBlock(program, model_loc, quat4, mat4(), mauQuat);
+    for (int i = 0; i < 4; i++)         
+    {
+        mat4 quat = model
+            * Translate(-0.08f, 0.40f, -0.25f)
+            * RotateZ(i * 90.0f)
+            * Translate(0.06f, 0, 0)
+            * Scale(0.10f, 0.025f, 0.015f);
+        drawBlock(program, model_loc, quat, mat4(), mauQuat);
+    }
 
     // Trục quạt
     mat4 trucQuat = model * Translate(-0.08f, 0.40f, -0.25f) * Scale(0.045f, 0.045f, 0.03f);
