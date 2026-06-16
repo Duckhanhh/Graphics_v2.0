@@ -39,10 +39,6 @@ void drawLoHoa(GLuint program, GLuint model_loc, const mat4& model) {
 	color4 mauHoaDo(0.9f, 0.2f, 0.3f, 1.0f);
 	color4 mauHoaVang(0.9f, 0.8f, 0.1f, 1.0f);
 
-	// ==========================================
-	// PART 1: VẼ THÂN LỌ HOA GỐM (Phân cấp từ dưới lên)
-	// ==========================================
-
 	// 1. Đế lọ hoa (Sát mặt sàn Z = 0)
 	// Đỉnh đế ở Z = 0.06
 	mat4 instDe = Translate(0.0f, 0.0f, 0.03f) * Scale(0.2f, 0.2f, 0.06f);
@@ -67,11 +63,6 @@ void drawLoHoa(GLuint program, GLuint model_loc, const mat4& model) {
 	// Z = Đỉnh cổ (0.35) + Nửa miệng (0.01) = 0.36
 	mat4 instMieng = Translate(0.0f, 0.0f, 0.36f) * Scale(0.07f, 0.07f, 0.02f);
 	drawBlockLoHoa(program, model_loc, model, instMieng, mauGom);
-
-
-	// ==========================================
-	// PART 2: VẼ CÀNH, LÁ VÀ HOA (Mọc từ miệng bình Z >= 0.36)
-	// ==========================================
 
 	// --- CÀNH CHÍNH GIỮA (Thẳng đứng) ---
 	mat4 instCanhGiua = Translate(0.0f, 0.0f, 0.44f) * Scale(0.015f, 0.015f, 0.14f);
