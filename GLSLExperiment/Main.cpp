@@ -82,7 +82,7 @@ void display(void)
 	mat4 modelCuaSo = model * Translate(0.0f, 2.1f, 1.7f) * RotateX(90.0f) * Scale(1.4f, 1.4f, 1.4f);
 	drawCuaSo(program, model_loc, modelCuaSo);
 
-	mat4 modelLoHoa = model * Translate(-0.2f, -0.2f, 0.6f);
+	mat4 modelLoHoa = model * Translate(-0.2f, -0.2f, 0.72f);
 	drawLoHoa(program, model_loc, modelLoHoa);
 
 	mat4 modelBanAn = model * Translate(-0.2f, -0.2f, 0.0f);
